@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<!-- PRIVACY: this policy blocks every network request. Images and data never leave the browser. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data: blob:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<title>My Online Profile</title>
+<style>
+/* =====================================================================
+   THEME
+   ===================================================================== */
+:root{
+  --bg:#ffffff;
+  --surface:#f4f5f7;
+  --surface-2:#e9ecf1;
+  --ink:#191c22;
+  --ink-2:#3a3f48;
+  --muted:#5f6672;
+  --line:#e3e6eb;
+  --accent:#3655d4;
+  --accent-press:#2a45b3;
+  --accent-soft:#eaeefc;
+  --danger:#c62f2c;
+  --heart:#e5364b;
+  --ok:#1b8a4c;
+  --amber-soft:#fff4dc;
+  --amber-ink:#8a5200;
+  --font:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Noto Sans TC", sans-serif;
+  --tabbar-h:56px;
+  --safe-b:env(safe-area-inset-bottom, 0px);
+  --safe-t:env(safe-area-inset-top, 0px);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{height:100%;margin:0}
+body{
+  font-family:var(--font);color:var(--ink);background:#e6e8ed;
+  -webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;
+  overflow:hidden;line-height:1.4;
+}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+input,textarea{font:inherit;color:inherit}
+img{max-width:100%}
+:focus{outline:none}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.sr-only{position:absolute !important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.ic{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic-sm{width:18px;height:18px}
+.ic-xs{width:15px;height:15px}
+.ic-fill{fill:currentColor}
+.visually-hidden-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px}
+
+/* =====================================================================
+   APP SHELL / DEVICE FRAME
+   ===================================================================== */
+.device{
+  position:relative;margin:0 auto;width:100%;max-width:820px;
+  height:100vh;height:100dvh;background:var(--bg);
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 0 0 1px var(--line);
+}
+@media (min-width:1000px) and (hover:hover) and (pointer:fine){
+  body{display:flex;align-items:center;justify-content:center;padding:24px}
+  .device{
+    width:440px;height:min(920px, calc(100vh - 48px));border-radius:44px;
+    box-shadow:0 0 0 10px #22262d,0 0 0 11px #3d424b,0 30px 80px rgba(10,14,22,.28);
+  }
+}
+.screens{position:relative;flex:1;min-height:0}
+.screen{
+  position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:28px;
+}
+
+/* =====================================================================
+   APP BAR
+   ===================================================================== */
+.appbar{
+  position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  min-height:54px;padding:calc(var(--safe-t) + 5px) 6px 5px 16px;
+  background:rgba(255,255,255,.93);-webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.appbar-title{display:flex;align-items:center;gap:7px;margin:0;font-size:20px;font-weight:750;letter-spacing:-.01em;min-width:0}
+.appbar-title span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.appbar-actions{display:flex;align-items:center}
+.icon-btn{width:44px;height:44px;border-radius:50%;display:inline-grid;place-items:center;flex:none;transition:background .15s}
+.icon-btn:active{background:var(--surface)}
+.brand{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.brand-mark{width:30px;height:30px;border-radius:9px;background:var(--accent);display:grid;place-items:center;color:#fff}
+.fict-pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:650;color:var(--amber-ink);background:var(--amber-soft);border-radius:999px;padding:5px 10px;margin-right:10px;white-space:nowrap}
+
+/* =====================================================================
+   VIEW-AS BANNER
+   ===================================================================== */
+.view-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:calc(var(--safe-t) + 8px) 10px 8px 16px;background:var(--ink);color:#fff;z-index:6;
+}
+.view-banner-text{display:flex;flex-direction:column;min-width:0}
+.view-banner-text strong{font-size:16px}
+.view-banner-text span{font-size:13px;opacity:.82}
+.view-banner-btn{min-height:44px;padding:0 16px;border-radius:999px;background:#fff;color:var(--ink);font-weight:700;font-size:14.5px;white-space:nowrap}
+.view-banner-btn:active{background:#e8eaee}
+.view-banner-btn:focus-visible{outline-color:#fff}
+.is-viewing .tabbar{display:none}
+.is-viewing .owner-only{display:none !important}
+
+/* =====================================================================
+   PROFILE
+   ===================================================================== */
+.audience-note{margin:12px 16px;padding:12px 14px;border-radius:14px;background:var(--accent-soft);font-size:14px;color:var(--ink-2)}
+.audience-note p{margin:0 0 5px;display:flex;gap:8px;align-items:flex-start}
+.audience-note p:last-child{margin:0}
+.audience-note .ic{margin-top:1px}
+.audience-note .yes{color:var(--ok)}
+.audience-note .no{color:var(--danger)}
+.cover{position:relative;display:block;width:100%;aspect-ratio:3/1;min-height:120px;max-height:250px;overflow:hidden;background:var(--surface-2);border-radius:0}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.cover:focus-visible{outline-offset:-4px;border-radius:0}
+.cover-badge{position:absolute;right:12px;top:12px;display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:rgba(20,22,28,.58);color:#fff;font-size:13px;font-weight:650;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.pf{padding:0 16px}
+.pf-top{display:flex;align-items:flex-end;gap:14px;margin-top:-46px}
+.avatar{position:relative;flex:none;width:108px;height:108px;border-radius:50%;padding:4px;background:var(--bg)}
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:var(--surface-2)}
+.avatar:focus-visible{border-radius:50%}
+.avatar-badge{position:absolute;right:2px;bottom:6px;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;border:3px solid #fff}
+.avatar-badge .ic{width:16px;height:16px;stroke-width:2.2}
+.presence{position:absolute;left:12px;bottom:10px;width:20px;height:20px;border-radius:50%;background:#2fb463;border:3px solid #fff}
+.stats{flex:1;display:flex;justify-content:space-around;gap:4px;padding-bottom:8px;min-width:0}
+.stat{display:flex;flex-direction:column;align-items:center;min-width:0}
+.stat strong{font-size:18px;font-weight:750;display:flex;align-items:center;gap:4px}
+.stat > span{font-size:13px;color:var(--muted)}
+.stat .ic{color:var(--muted)}
+.pf-nameline{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin-top:10px}
+.pf-name{margin:0;font-size:22px;font-weight:780;letter-spacing:-.015em;overflow-wrap:anywhere}
+.pf-pronouns{font-size:14px;font-weight:500;color:var(--muted);margin-left:8px;letter-spacing:0}
+.privacy-pill{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:650;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 10px 4px 8px}
+.pf-userline{display:flex;align-items:center;gap:10px;margin:2px 0 0;font-size:15px;color:var(--muted)}
+.pf-active{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--ok);font-weight:600}
+.pf-active::before{content:"";width:8px;height:8px;border-radius:50%;background:#2fb463}
+.pf-bio{margin:10px 0 0;font-size:15.5px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.pf-link{display:flex;align-items:center;gap:6px;margin:8px 0 0;font-size:15px;font-weight:600;color:var(--accent);overflow-wrap:anywhere}
+.pf-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.btn{min-height:44px;padding:0 14px;border-radius:12px;font-weight:680;font-size:15px;background:var(--surface-2);display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .15s, transform .1s}
+.btn:active{background:#dde1e8;transform:scale(.985)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:active{background:var(--accent-press)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-plain{background:transparent;color:var(--ink-2)}
+.btn-plain:active{background:var(--surface)}
+.btn-block{width:100%}
+.viewas-bar{
+  display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;min-height:56px;padding:8px 12px 8px 14px;
+  border-radius:14px;background:var(--accent-soft);color:var(--ink);text-align:left;
+}
+.viewas-bar .ic:first-child{color:var(--accent)}
+.viewas-bar span{flex:1;display:flex;flex-direction:column}
+.viewas-bar strong{font-size:15px}
+.viewas-bar small{font-size:13px;color:var(--muted)}
+.viewas-bar:active{background:#dfe5fb}
+.sim-card{margin:16px 16px 4px;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--surface)}
+.sim-card h2{display:flex;align-items:center;gap:7px;margin:0 0 4px;font-size:14.5px;font-weight:750}
+.sim-card h2 .ic{color:var(--ok)}
+.sim-card p{margin:0 0 12px;font-size:13.5px;color:var(--ink-2)}
+.sim-actions{display:flex;gap:8px;flex-wrap:wrap}
+.sim-actions .btn-primary{flex:1 1 180px}
+.sim-actions .btn-plain{flex:0 1 auto;border:1px solid var(--line);background:#fff}
+.content-tabs{display:flex;margin-top:14px;border-bottom:1px solid var(--line)}
+.content-tabs button{flex:1;min-height:48px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:650;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.content-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.tile{position:relative;display:grid;place-items:center;overflow:hidden;background:linear-gradient(150deg,var(--c1),var(--c2));color:var(--ink)}
+.tile::before{content:"";position:absolute;width:70%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.28);right:-18%;top:-22%}
+.post-grid .tile{aspect-ratio:1/1;width:100%}
+.post-grid .tile:focus-visible{outline-offset:-3px;border-radius:2px}
+.post-grid .tile:active{filter:brightness(.95)}
+.tile-emoji{position:relative;font-size:44px;line-height:1}
+.tile-title{position:absolute;left:8px;right:8px;bottom:7px;font-size:11.5px;font-weight:700;color:rgba(25,28,34,.78);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (min-width:700px) and (pointer:coarse), (min-width:700px) and (max-width:999px){
+  .tile-emoji{font-size:58px}
+  .tile-title{font-size:13px;left:10px;bottom:9px}
+}
+.empty,.locked{padding:44px 28px 24px;text-align:center}
+.locked-icon{width:76px;height:76px;margin:0 auto 14px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center}
+.locked-icon .ic{width:34px;height:34px}
+.locked h3,.empty h3{margin:0 0 6px;font-size:18px}
+.locked p,.empty p{margin:0 auto;font-size:14.5px;color:var(--muted);max-width:32ch}
+
+/* =====================================================================
+   OTHER TABS (HOME / EXPLORE / CREATE / ACTIVITY)
+   ===================================================================== */
+.fiction-note{margin:12px 16px;padding:10px 14px;border-radius:12px;background:var(--amber-soft);color:var(--amber-ink);font-size:13.5px;font-weight:550}
+.feed-item{border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:6px}
+.feed-head{display:flex;align-items:center;gap:10px;padding:10px 16px}
+.feed-av{width:38px;height:38px;border-radius:50%}
+.feed-head div{display:flex;flex-direction:column;flex:1;min-width:0}
+.feed-head strong{font-size:14.5px}
+.feed-head span{font-size:12.5px;color:var(--muted)}
+.feed-time{font-size:13px;color:var(--muted)}
+.feed-media{aspect-ratio:4/3}
+.feed-media .tile-emoji{font-size:84px}
+.feed-actions{display:flex;padding:4px 6px 0}
+.like-btn.is-liked{color:var(--heart)}
+.like-btn.pop .ic{animation:pop .35s var(--ease)}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.28)}100%{transform:scale(1)}}
+.feed-likes{margin:0 16px;font-size:14.5px;font-weight:700}
+.feed-cap{margin:4px 16px 0;font-size:14.5px}
+.search{display:flex;align-items:center;gap:8px;margin:12px 16px 4px;padding:0 12px;min-height:44px;border-radius:12px;background:var(--surface);color:var(--muted)}
+.search input{flex:1;border:0;background:transparent;font-size:16px;color:var(--ink);min-height:44px;outline:none}
+.search:focus-within{box-shadow:0 0 0 3px var(--accent)}
+.explore-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:10px 16px}
+.explore-card{border-radius:16px;overflow:hidden;background:var(--surface);text-align:left;display:flex;flex-direction:column}
+.explore-card .tile{aspect-ratio:4/3}
+.explore-card .tile-emoji{font-size:48px}
+.explore-card span{display:block;padding:9px 12px 0;font-size:14.5px;font-weight:700}
+.explore-card small{display:block;padding:2px 12px 12px;font-size:13px;color:var(--muted)}
+.act-head{margin:18px 16px 6px;font-size:15px;font-weight:750}
+.act-item{display:flex;align-items:center;gap:12px;padding:8px 16px;min-height:60px}
+.act-item img.feed-av{width:44px;height:44px}
+.act-text{flex:1;font-size:14.5px;min-width:0}
+.act-text time{color:var(--muted);font-size:13px;margin-left:4px}
+.act-thumb{width:44px;height:44px;border-radius:8px;flex:none}
+.act-thumb .tile-emoji{font-size:22px}
+.act-thumb::before{display:none}
+.act-btn{min-height:36px;padding:0 14px;font-size:14px;border-radius:10px}
+.req-card{margin:6px 16px;padding:14px;border-radius:16px;border:1px solid var(--line)}
+.req-card .act-item{padding:0 0 10px;min-height:0}
+.req-tip{margin:0 0 12px;font-size:13.5px;color:var(--amber-ink);background:var(--amber-soft);padding:9px 12px;border-radius:10px}
+.req-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.create{padding:16px;display:flex;flex-direction:column;gap:14px;max-width:560px;margin:0 auto}
+.create-preview{aspect-ratio:1/1;border-radius:18px;width:100%;max-width:340px;margin:0 auto}
+.create-preview .tile-emoji{font-size:96px}
+.style-picker{border:0;margin:0;padding:0}
+.style-picker legend{font-size:14px;font-weight:650;margin-bottom:8px;padding:0}
+.style-row{display:flex;gap:10px;flex-wrap:wrap}
+.style-opt{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:26px;background:linear-gradient(150deg,var(--c1),var(--c2));border:3px solid transparent}
+.style-opt[aria-checked="true"]{border-color:var(--ink)}
+.muted-note{margin:0;text-align:center;font-size:13px;color:var(--muted)}
+
+/* =====================================================================
+   BOTTOM NAVIGATION
+   ===================================================================== */
+.tabbar{
+  position:relative;z-index:8;display:flex;border-top:1px solid var(--line);
+  background:rgba(255,255,255,.95);-webkit-backdrop-filter:saturate(1.6) blur(16px);backdrop-filter:saturate(1.6) blur(16px);
+  padding-bottom:var(--safe-b);
+}
+.tab{flex:1;min-height:var(--tabbar-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;color:var(--muted)}
+.tab[aria-current="page"]{color:var(--ink)}
+.tab[aria-current="page"] .ic{stroke-width:2.4}
+.tab-avatar{width:26px;height:26px;border-radius:50%;object-fit:cover;border:2px solid transparent;background:var(--surface-2)}
+.tab[aria-current="page"] .tab-avatar{border-color:var(--ink)}
+
+/* =====================================================================
+   EDIT PROFILE
+   ===================================================================== */
+.edit-layer{position:absolute;inset:0;z-index:30;background:var(--bg);transform:translateY(100%);transition:transform .34s var(--ease);overflow:hidden}
+.edit-layer.is-open{transform:none}
+.page{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg)}
+.page-root{transition:transform .32s var(--ease)}
+.edit-layer.has-sub .page-root{transform:translateX(-22%)}
+.page-sub{z-index:2;transform:translateX(100%);transition:transform .32s var(--ease);box-shadow:-10px 0 30px rgba(10,14,22,.08)}
+.page-sub.is-open{transform:none}
+.navbar{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:54px;
+  padding:calc(var(--safe-t) + 5px) 6px 5px;border-bottom:1px solid var(--line);background:#fff;flex:none;
+}
+.navbar h2{margin:0;font-size:17px;font-weight:750;text-align:center;white-space:nowrap}
+.nav-text{justify-self:start;min-height:44px;min-width:44px;padding:0 10px;font-size:16.5px;color:var(--ink);border-radius:10px;display:inline-flex;align-items:center;gap:2px}
+.navbar > :last-child{justify-self:end}
+.nav-text.strong{color:var(--accent);font-weight:750}
+.nav-text:active{background:var(--surface)}
+.page-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:calc(36px + var(--safe-b))}
+.edit-hero{position:relative;padding-bottom:6px;text-align:center}
+.edit-cover{display:block;position:relative;width:100%;aspect-ratio:3/1;max-height:200px;min-height:110px;overflow:hidden;background:var(--surface-2)}
+.edit-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.edit-cover .cover-badge{top:auto;bottom:10px}
+.edit-cover:focus-visible{outline-offset:-4px;border-radius:0}
+.edit-avatar{position:relative;display:block;width:96px;height:96px;margin:-48px auto 0;border-radius:50%;padding:4px;background:#fff}
+.edit-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.edit-avatar .avatar-badge{bottom:2px;right:0}
+.link-btn{min-height:44px;padding:0 14px;color:var(--accent);font-weight:700;font-size:15px;border-radius:10px}
+.group-title{margin:20px 16px 7px;font-size:13.5px;font-weight:650;color:var(--muted)}
+.list{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+.row{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-height:54px;padding:9px 12px 9px 16px;text-align:left;font-size:16px}
+.row + .row::before{content:"";position:absolute;top:0;left:16px;right:0;height:1px;background:var(--line)}
+button.row:active,.row-switch:active{background:var(--surface)}
+.row-label{flex:none;width:118px;font-weight:550}
+.row-value{flex:1;min-width:0;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-value.placeholder{color:var(--muted)}
+.row .chev{color:#a3a9b3;width:18px;height:18px}
+.row-thumb{width:36px;height:36px;border-radius:50%;object-fit:cover;flex:none;margin-left:auto}
+.row-thumb.wide{width:64px;height:28px;border-radius:6px}
+.row-switch{cursor:pointer}
+.row-text{flex:1;display:flex;flex-direction:column;min-width:0}
+.row-sub{font-size:13px;color:var(--muted);margin-top:1px}
+.switch{position:relative;flex:none;width:51px;height:31px;border-radius:999px;background:#cfd4dc;transition:background .2s}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.22);transition:transform .24s var(--ease)}
+.switch[aria-checked="true"]{background:var(--accent)}
+.switch[aria-checked="true"]::after{transform:translateX(20px)}
+.switch:focus-visible{border-radius:999px}
+.group-foot{display:flex;gap:10px;margin:14px 16px 0;font-size:13.5px;color:var(--muted)}
+.group-foot .ic{color:var(--ok)}
+
+/* Field editor sub-page */
+.field-body{padding:20px 16px calc(36px + var(--safe-b))}
+.field-label{display:block;font-size:14px;font-weight:650;color:var(--muted);margin:0 0 8px}
+.field-box{display:flex;align-items:flex-start;gap:4px;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:#fff;transition:border-color .15s, box-shadow .15s}
+.field-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(54,85,212,.15)}
+.field-prefix{font-size:17px;color:var(--muted);line-height:1.5}
+.field-box input,.field-box textarea{flex:1;width:100%;border:0;background:transparent;font-size:17px;line-height:1.5;outline:none;padding:0;resize:none;min-width:0}
+.field-box textarea{min-height:170px}
+.field-meta{display:flex;justify-content:space-between;gap:12px;margin-top:8px;min-height:20px}
+.field-error{font-size:13.5px;color:var(--danger);font-weight:550}
+.counter{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;margin-left:auto}
+.counter.near{color:var(--amber-ink);font-weight:650}
+.counter.full{color:var(--danger);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);font-size:14.5px;font-weight:600;background:#fff}
+.chip:active{background:var(--surface)}
+.field-help{display:flex;gap:10px;margin-top:16px;padding:12px 14px;border-radius:12px;background:var(--surface);font-size:14px;color:var(--ink-2)}
+.field-help .ic{color:var(--ok);margin-top:1px}
+
+/* Visibility sub-page */
+.vis-list{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.vis-opt{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;min-height:72px}
+.vis-opt + .vis-opt::before{content:"";position:absolute;top:0;left:70px;right:0;height:1px;background:var(--line)}
+.vis-opt input{position:absolute;opacity:0;width:1px;height:1px}
+.vis-icon{width:42px;height:42px;border-radius:50%;background:var(--surface);display:grid;place-items:center;flex:none}
+.vis-text{flex:1}
+.vis-text strong{display:block;font-size:16px}
+.vis-text span{font-size:14px;color:var(--muted)}
+.radio{width:24px;height:24px;border-radius:50%;border:2px solid #b5bbc5;flex:none;display:grid;place-items:center;transition:border-color .15s}
+.radio::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform .18s var(--ease)}
+.vis-opt input:checked ~ .radio{border-color:var(--accent)}
+.vis-opt input:checked ~ .radio::after{transform:scale(1)}
+.vis-opt input:focus-visible ~ .radio{box-shadow:0 0 0 3px var(--accent);border-color:var(--accent)}
+.vis-explainer{margin:16px;padding:14px;border-radius:14px;background:var(--accent-soft);font-size:14px;color:var(--ink-2)}
+.vis-explainer h3{margin:0 0 8px;font-size:14.5px;color:var(--ink)}
+.vis-explainer p{margin:0 0 5px;display:flex;gap:8px}
+.vis-explainer .yes{color:var(--ok)}
+.vis-explainer .no{color:var(--danger)}
+
+/* =====================================================================
+   BOTTOM SHEETS
+   ===================================================================== */
+.sheet-wrap{position:absolute;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:rgba(15,18,24,0);transition:background .26s}
+.sheet-wrap.is-open{background:rgba(15,18,24,.4)}
+.sheet{width:100%;max-width:560px;max-height:90%;overflow-y:auto;background:var(--bg);border-radius:22px 22px 0 0;padding:8px 12px calc(12px + var(--safe-b));transform:translateY(100%);transition:transform .32s var(--ease)}
+.sheet-wrap.is-open .sheet{transform:none}
+.grabber{width:38px;height:5px;border-radius:3px;background:#d3d7de;margin:2px auto 12px}
+.sheet-title{margin:0 0 4px;text-align:center;font-size:16px;font-weight:750}
+.sheet-sub{margin:0 10px 12px;text-align:center;font-size:13.5px;color:var(--muted)}
+.sheet-group{background:var(--surface);border-radius:14px;overflow:hidden}
+.sheet-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:8px 16px;font-size:16.5px;text-align:left;border-bottom:1px solid var(--line)}
+.sheet-btn:last-child{border-bottom:0}
+.sheet-btn:active{background:#e6e9ee}
+.sheet-btn .ic{color:var(--ink-2)}
+.sheet-btn span{display:flex;flex-direction:column}
+.sheet-btn small{font-size:13px;color:var(--muted)}
+.sheet-btn.danger,.sheet-btn.danger .ic{color:var(--danger)}
+.sheet-btn:disabled{opacity:.4;cursor:default}
+.sheet-cancel{display:block;width:100%;margin-top:8px;min-height:54px;border-radius:14px;background:var(--surface);font-weight:750;font-size:16.5px}
+.sheet-cancel:active{background:#e6e9ee}
+.sheet-tip{display:flex;gap:10px;margin:0 0 10px;padding:11px 13px;border-radius:12px;background:var(--amber-soft);color:var(--amber-ink);font-size:13.5px}
+.share-card{margin:4px auto 12px;max-width:320px;padding:20px;border-radius:20px;border:1px solid var(--line);text-align:center}
+.share-card img{width:76px;height:76px;border-radius:50%;object-fit:cover}
+.share-card strong{display:block;font-size:17px;margin-top:8px}
+.share-card .muted{color:var(--muted);font-size:14px}
+.share-code{width:120px;height:120px;margin:14px auto 8px;color:var(--ink)}
+.share-url{display:inline-block;margin-top:4px;padding:6px 12px;border-radius:999px;background:var(--surface);font-size:13.5px;font-weight:600;overflow-wrap:anywhere}
+.share-note{margin:0 4px 12px;font-size:14px;color:var(--ink-2);text-align:center}
+.share-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* =====================================================================
+   MODALS / ALERTS
+   ===================================================================== */
+.alert-wrap{position:absolute;inset:0;z-index:60;display:grid;place-items:center;padding:24px;background:rgba(15,18,24,0);transition:background .22s}
+.alert-wrap.is-open{background:rgba(15,18,24,.46)}
+.alert{width:min(350px,100%);background:#fff;border-radius:22px;padding:24px 20px 16px;text-align:center;opacity:0;transform:scale(1.06);transition:transform .22s var(--ease), opacity .18s;box-shadow:0 20px 60px rgba(10,14,22,.25)}
+.alert-wrap.is-open .alert{opacity:1;transform:none}
+.alert-icon{width:54px;height:54px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:var(--amber-soft);color:var(--amber-ink)}
+.alert-icon.neutral{background:var(--surface);color:var(--ink-2)}
+.alert-icon .ic{width:28px;height:28px}
+.alert h2{margin:0 0 8px;font-size:19px;font-weight:780}
+.alert p{margin:0 0 8px;font-size:15px;color:var(--ink-2);line-height:1.45}
+.alert .alert-note{font-size:12.5px;color:var(--muted);margin-top:10px}
+.alert-actions{display:grid;gap:8px;margin-top:16px}
+.alert-actions.two{grid-template-columns:1fr 1fr}
+
+/* Post detail */
+.post-wrap{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(15,18,24,0);transition:background .24s}
+.post-wrap.is-open{background:rgba(15,18,24,.55)}
+.post-modal{width:min(520px,100%);max-height:100%;overflow-y:auto;background:#fff;border-radius:20px;opacity:0;transform:translateY(18px) scale(.98);transition:transform .28s var(--ease), opacity .2s}
+.post-wrap.is-open .post-modal{opacity:1;transform:none}
+.post-head{display:flex;align-items:center;gap:10px;padding:8px 6px 8px 14px}
+.post-head img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.post-head div{flex:1;min-width:0;display:flex;flex-direction:column}
+.post-head strong{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post-head span{font-size:12.5px;color:var(--muted)}
+.post-media{aspect-ratio:1/1}
+.post-media .tile-emoji{font-size:110px}
+.post-media .tile-title{font-size:15px;left:16px;bottom:14px}
+.post-actions{display:flex;align-items:center;padding:4px 6px 0}
+.post-actions .icon-btn .ic{width:27px;height:27px}
+.post-body{padding:0 16px 16px}
+.post-likes{margin:2px 0 4px;font-weight:750;font-size:15px}
+.post-caption{margin:0;font-size:15px;overflow-wrap:anywhere}
+.post-comments{margin:10px 0 0;padding:0;list-style:none;font-size:14.5px}
+.post-comments li{margin-bottom:5px}
+.post-comments .off{color:var(--muted)}
+.post-time{margin:10px 0 0;font-size:12.5px;color:var(--muted)}
+.post-sim{margin:10px 0 0;font-size:12.5px;color:var(--amber-ink)}
+
+/* =====================================================================
+   TOAST
+   ===================================================================== */
+.toast{
+  position:absolute;left:50%;bottom:calc(var(--tabbar-h) + var(--safe-b) + 16px);z-index:90;
+  display:flex;align-items:center;gap:8px;max-width:calc(100% - 32px);
+  padding:11px 18px;border-radius:999px;background:var(--ink);color:#fff;font-size:14.5px;font-weight:650;
+  box-shadow:0 10px 30px rgba(10,14,22,.25);
+  opacity:0;transform:translate(-50%,14px);transition:opacity .22s, transform .28s var(--ease);pointer-events:none;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast .ic{color:#7ee2a6}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important}
+}
+
+/* =====================================================================
+   PRINT
+   ===================================================================== */
+#printSheet{display:none}
+@media print{
+  @page{margin:11mm}
+  html,body{height:auto !important;overflow:visible !important;background:#fff !important}
+  body{display:block !important;padding:0 !important}
+  body > :not(#printSheet){display:none !important}
+  #printSheet{display:block !important}
+}
+#printSheet{color:#14161b;font-family:var(--font);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pr{max-width:186mm;margin:0 auto;font-size:10.5pt;line-height:1.4}
+.pr-head{display:flex;justify-content:space-between;align-items:baseline;gap:6mm;border-bottom:1.5pt solid #14161b;padding-bottom:2.5mm;margin-bottom:4mm}
+.pr-head h1{margin:0;font-size:21pt;letter-spacing:-.02em}
+.pr-head p{margin:0;font-size:8.5pt;color:#555}
+.pr-card{border:.75pt solid #cfd4dc;border-radius:4mm;overflow:hidden;break-inside:avoid;page-break-inside:avoid}
+.pr-cover{height:32mm;background:#e9ecf1;overflow:hidden}
+.pr-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.pr-id{display:flex;align-items:flex-end;gap:4mm;padding:0 5mm;margin-top:-10mm}
+.pr-avatar{width:23mm;height:23mm;border-radius:50%;border:1mm solid #fff;object-fit:cover;background:#fff;flex:none}
+.pr-names{flex:1;min-width:0;padding-bottom:1mm}
+.pr-names h2{margin:0;font-size:15pt}
+.pr-names h2 small{font-size:9.5pt;font-weight:500;color:#555;margin-left:2mm}
+.pr-names p{margin:0;color:#555}
+.pr-privacy{flex:none;padding:1.5mm 3mm;border:.75pt solid #cfd4dc;border-radius:3mm;font-size:9pt;max-width:62mm;margin-bottom:1mm}
+.pr-privacy strong{display:block;font-size:10pt}
+.pr-cols{display:grid;grid-template-columns:1.1fr 1fr;gap:6mm;padding:4mm 5mm 5mm}
+.pr-cols h3{margin:0 0 1mm;font-size:8.5pt;color:#555;font-weight:650}
+.pr-bio{margin:0 0 3mm;white-space:pre-wrap;overflow-wrap:anywhere}
+.pr-cols p{margin:0 0 3mm}
+.pr-settings{margin:0;padding:0;list-style:none;font-size:9.5pt}
+.pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5mm}
+.pr-tile{height:19mm;border-radius:2mm;display:flex;align-items:center;justify-content:center;font-size:19pt;background:linear-gradient(150deg,var(--c1),var(--c2))}
+.pr-reflect{margin-top:5mm;break-inside:avoid;page-break-inside:avoid}
+.pr-reflect h2{margin:0 0 2mm;font-size:13.5pt}
+.pr-reflect ol{margin:0;padding-left:5mm}
+.pr-reflect li{margin-bottom:2mm}
+.pr-reflect li p{margin:0 0 1mm;font-weight:600}
+.pr-line{border-bottom:.75pt solid #9aa0aa;height:8mm}
+.pr-nameclass{margin:5mm 0 0;font-weight:600}
+.pr-nameclass span{display:inline-block;width:110mm;border-bottom:.75pt solid #9aa0aa;margin-left:2mm}
+.pr-foot{margin-top:3mm;font-size:8pt;color:#777}
+</style>
+</head>
+<body>
+
+<!-- =====================================================================
+     ICON SPRITE (original line icons)
+     ===================================================================== -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z"/></symbol>
+  <symbol id="i-plus-square" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.4-4.5-9.2-9.1C1.7 7.8 3.6 4.5 7 4.5c2 0 3.3 1.1 5 3 1.7-1.9 3-3 5-3 3.4 0 5.3 3.3 4.2 6.4C19.4 15.5 12 20 12 20z"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3.5 8.5A1.5 1.5 0 0 1 5 7h2.4l1.6-2.3h6L16.6 7H19a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 19 19H5a1.5 1.5 0 0 1-1.5-1.5z"/><circle cx="12" cy="13" r="3.4"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.8 19.5c.9-3.3 3.3-5 6.2-5s5.3 1.7 6.2 5"/><path d="M15.5 5.2a3.5 3.5 0 0 1 0 6.6M17.6 14.8c1.9.6 3.1 2.2 3.6 4.7"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 6.1c.5-.1.9-.1 1.4-.1 6 0 9.5 6 9.5 6a17 17 0 0 1-3 3.6M6.6 7.1C4 8.9 2.5 12 2.5 12S6 18.5 12 18.5c1.6 0 3-.4 4.2-1"/><path d="M9.9 10a3 3 0 0 0 4.1 4.2"/></symbol>
+  <symbol id="i-printer" viewBox="0 0 24 24"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6.5H7z"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 14.5V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12.5V19a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 19v-6.5"/></symbol>
+  <symbol id="i-comment" viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.3A8.5 8.5 0 1 1 20.5 11.5z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10 14M21 3l-6.5 18-4-7-7-4z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M9.2 3.5v17M14.8 3.5v17M3.5 9.2h17M3.5 14.8h17"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.5 1.5 0 0 1 0 2.1l-6.6 6.6a1.5 1.5 0 0 1-2.1 0z"/><circle cx="8" cy="8" r="1.4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4.5V11h-6.5"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m4 18 5.5-5 4 3.5 2.5-2 4.5 3.5"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+  <symbol id="i-mark" viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.6"/><path d="M5.5 19c1.3-3.2 3.7-4.8 6.5-4.8s5.2 1.6 6.5 4.8"/></symbol>
+</svg>
+
+<div class="device" id="app">
+
+  <!-- =====================================================================
+       VIEW-AS BANNER
+       ===================================================================== -->
+  <div class="view-banner" id="viewBanner" hidden>
+    <div class="view-banner-text">
+      <strong id="viewBannerTitle" tabindex="-1">Public View</strong>
+      <span id="viewBannerSub"></span>
+    </div>
+    <button class="view-banner-btn" type="button" data-action="return-profile">Return to My Profile</button>
+  </div>
+
+  <main class="screens" id="screens">
+
+    <!-- =====================================================================
+         PROFILE SCREEN
+         ===================================================================== -->
+    <section class="screen" id="screen-profile" data-screen="profile" aria-label="Profile">
+      <header class="appbar">
+        <h1 class="appbar-title">
+          <svg class="ic ic-sm" id="pfBarIcon" aria-hidden="true"><use href="#i-globe"/></svg>
+          <span id="pfBarUsername"></span>
+          <span class="sr-only" id="pfBarPrivacy"></span>
+        </h1>
+        <div class="appbar-actions owner-only">
+          <button class="icon-btn" type="button" data-action="view-as" aria-label="View profile as"><svg class="ic"><use href="#i-eye"/></svg></button>
+          <button class="icon-btn" type="button" data-action="print" aria-label="Print my profile"><svg class="ic"><use href="#i-printer"/></svg></button>
+          <button class="icon-btn" type="button" data-action="menu" id="btnMenu" aria-label="More options"><svg class="ic"><use href="#i-more"/></svg></button>
+        </div>
+      </header>
+
+      <div class="audience-note" id="audienceNote" hidden></div>
+
+      <button class="cover" id="coverBtn" type="button" data-action="photo" data-kind="cover" aria-label="Change cover photo">
+        <img id="coverImg" alt="">
+        <span class="cover-badge owner-only" aria-hidden="true"><svg class="ic ic-xs"><use href="#i-camera"/></svg>Edit cover</span>
+      </button>
+
+      <div class="pf">
+        <div class="pf-top">
+          <button class="avatar" id="avatarBtn" type="button" data-action="photo" data-kind="avatar" aria-label="Change profile photo">
+            <img id="avatarImg" alt="">
+            <span class="presence" id="presenceDot" hidden></span>
+            <span class="avatar-badge owner-only" aria-hidden="true"><svg class="ic"><use href="#i-camera"/></svg></span>
+          </button>
+          <div class="stats">
+            <div class="stat"><strong id="statPosts">0</strong><span>posts</span></div>
+            <div class="stat" id="statFollowersWrap">
+              <strong><span id="statFollowers">0</span><svg class="ic ic-xs" id="countsHiddenNote" aria-hidden="true" hidden><use href="#i-eye-off"/></svg></strong>
+              <span>followers<span class="sr-only" id="countsHiddenSr"></span></span>
+            </div>
+            <div class="stat" id="statFollowingWrap"><strong id="statFollowing">0</strong><span>following</span></div>
+          </div>
+        </div>
+
+        <div class="pf-nameline">
+          <h2 class="pf-name"><span id="pfName"></span><span class="pf-pronouns" id="pfPronouns" hidden></span></h2>
+          <span class="privacy-pill" id="privacyPill"></span>
+        </div>
+        <p class="pf-userline"><span id="pfUsername"></span><span class="pf-active" id="pfActive" hidden>Active now</span></p>
+        <p class="pf-bio" id="pfBio"></p>
+        <p class="pf-link" id="pfLink"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-link"/></svg><span id="pfLinkText"></span></p>
+
+        <div class="pf-actions" id="pfActions"></div>
+
+        <button class="viewas-bar owner-only" type="button" data-action="view-as">
+          <svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg>
+          <span><strong>View Profile As…</strong><small>See what strangers and friends can see</small></span>
+          <svg class="ic ic-sm" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+      </div>
+
+      <aside class="sim-card owner-only" aria-labelledby="simTitle">
+        <h2 id="simTitle"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-shield"/></svg>Classroom Simulation</h2>
+        <p id="simText"></p>
+        <div class="sim-actions">
+          <button class="btn btn-primary" type="button" data-action="print"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-printer"/></svg>Print My Profile</button>
+          <button class="btn btn-plain" type="button" data-action="reset"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-refresh"/></svg>Start Over</button>
+        </div>
+      </aside>
+
+      <div class="content-tabs" id="contentTabs" role="tablist" aria-label="Profile content">
+        <button type="button" role="tab" id="tab-posts" aria-selected="true" aria-controls="postGrid" data-action="content-tab" data-tabname="posts"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-grid"/></svg>Posts</button>
+        <button type="button" role="tab" id="tab-tagged" aria-selected="false" aria-controls="taggedPanel" data-action="content-tab" data-tabname="tagged" tabindex="-1"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-tag"/></svg>Tagged</button>
+      </div>
+      <div class="post-grid" id="postGrid" role="tabpanel" aria-labelledby="tab-posts"></div>
+      <div class="empty" id="taggedPanel" role="tabpanel" aria-labelledby="tab-tagged" hidden>
+        <h3>No tagged photos yet</h3>
+        <p>Photos other people tag you in appear here. In this simulation, nobody can tag you.</p>
+      </div>
+      <div class="locked" id="lockedPanel" hidden>
+        <div class="locked-icon"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg></div>
+        <h3 id="lockedTitle">This profile is private</h3>
+        <p id="lockedText"></p>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         HOME SCREEN (simulated)
+         ===================================================================== -->
+    <section class="screen" id="screen-home" data-screen="home" aria-label="Home" hidden>
+      <header class="appbar">
+        <h1 class="appbar-title brand"><span class="brand-mark" aria-hidden="true"><svg class="ic ic-sm"><use href="#i-mark"/></svg></span><span id="brandName"></span></h1>
+        <span class="fict-pill">Simulation</span>
+      </header>
+      <p class="fiction-note">Every account and post on this screen is fictional. Nothing here is real or online.</p>
+      <div id="homeFeed"></div>
+    </section>
+
+    <!-- =====================================================================
+         EXPLORE SCREEN (simulated)
+         ===================================================================== -->
+    <section class="screen" id="screen-explore" data-screen="explore" aria-label="Explore" hidden>
+      <header class="appbar"><h1 class="appbar-title"><span>Explore</span></h1><span class="fict-pill">Fictional content</span></header>
+      <label class="search">
+        <svg class="ic ic-sm" aria-hidden="true"><use href="#i-search"/></svg>
+        <span class="sr-only">Search topics</span>
+        <input type="search" id="exploreSearch" placeholder="Search topics" autocomplete="off" enterkeyhint="search">
+      </label>
+      <div class="explore-grid" id="exploreGrid"></div>
+      <div class="empty" id="exploreEmpty" hidden><h3>No topics found</h3><p>Try another word, like “art” or “space”.</p></div>
+    </section>
+
+    <!-- =====================================================================
+         CREATE SCREEN (simulated)
+         ===================================================================== -->
+    <section class="screen" id="screen-create" data-screen="create" aria-label="Create a post" hidden>
+      <header class="appbar"><h1 class="appbar-title"><span>New post</span></h1><span class="fict-pill">Practice only</span></header>
+      <div class="create">
+        <div class="tile create-preview" id="createPreview" role="img" aria-label="Post picture preview"><span class="tile-emoji" id="createEmoji" aria-hidden="true"></span></div>
+        <fieldset class="style-picker">
+          <legend>Choose a picture</legend>
+          <div class="style-row" id="stylePicker" role="radiogroup" aria-label="Post picture"></div>
+        </fieldset>
+        <div>
+          <label class="field-label" for="createCaption">Caption</label>
+          <div class="field-box"><textarea id="createCaption" rows="4" placeholder="Write a caption…" style="min-height:110px"></textarea></div>
+          <div class="field-meta"><span></span><span class="counter" id="createCounter"></span></div>
+        </div>
+        <button class="btn btn-primary btn-block" type="button" data-action="create-share">Share to My Profile</button>
+        <p class="muted-note">Posts stay in this browser. Nothing is published online.</p>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         ACTIVITY SCREEN (simulated)
+         ===================================================================== -->
+    <section class="screen" id="screen-activity" data-screen="activity" aria-label="Activity" hidden>
+      <header class="appbar"><h1 class="appbar-title"><span>Activity</span></h1><span class="fict-pill">Fictional people</span></header>
+      <p class="fiction-note">These notifications are made up for practice. No real person is involved.</p>
+      <div id="activityList"></div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       BOTTOM NAVIGATION
+       ===================================================================== -->
+  <nav class="tabbar" id="tabbar" aria-label="Main">
+    <button class="tab" type="button" data-action="tab" data-tab="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button>
+    <button class="tab" type="button" data-action="tab" data-tab="explore"><svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg>Explore</button>
+    <button class="tab" type="button" data-action="tab" data-tab="create"><svg class="ic" aria-hidden="true"><use href="#i-plus-square"/></svg>Create</button>
+    <button class="tab" type="button" data-action="tab" data-tab="activity"><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg>Activity</button>
+    <button class="tab" type="button" data-action="tab" data-tab="profile"><img class="tab-avatar" id="tabAvatar" alt="">Profile</button>
+  </nav>
+
+  <!-- =====================================================================
+       EDIT PROFILE
+       ===================================================================== -->
+  <div class="edit-layer" id="editLayer" role="dialog" aria-modal="true" aria-labelledby="editTitle" hidden>
+    <div class="page page-root" id="editRoot">
+      <header class="navbar">
+        <button class="nav-text" type="button" data-action="edit-cancel">Cancel</button>
+        <h2 id="editTitle">Edit Profile</h2>
+        <button class="nav-text strong" type="button" data-action="edit-done">Done</button>
+      </header>
+      <div class="page-scroll">
+        <div class="edit-hero">
+          <button class="edit-cover" type="button" data-action="photo" data-kind="cover" aria-label="Change cover photo">
+            <img id="editCoverImg" alt="">
+            <span class="cover-badge" aria-hidden="true"><svg class="ic ic-xs"><use href="#i-camera"/></svg>Edit cover</span>
+          </button>
+          <button class="edit-avatar" type="button" data-action="photo" data-kind="avatar" aria-label="Change profile photo">
+            <img id="editAvatarImg" alt="">
+            <span class="avatar-badge" aria-hidden="true"><svg class="ic"><use href="#i-camera"/></svg></span>
+          </button>
+          <button class="link-btn" type="button" data-action="photo" data-kind="avatar">Edit picture</button>
+        </div>
+
+        <h3 class="group-title">Photos</h3>
+        <div class="list">
+          <button class="row" type="button" data-action="photo" data-kind="avatar">
+            <span class="row-label">Profile Photo</span>
+            <img class="row-thumb" id="evAvatarThumb" alt="">
+            <svg class="ic chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+          <button class="row" type="button" data-action="photo" data-kind="cover">
+            <span class="row-label">Cover Photo</span>
+            <img class="row-thumb wide" id="evCoverThumb" alt="">
+            <svg class="ic chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+        </div>
+
+        <h3 class="group-title">About you</h3>
+        <div class="list">
+          <button class="row" type="button" data-action="edit-field" data-field="name"><span class="row-label">Name</span><span class="row-value" id="ev-name"></span><svg class="ic chev" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+          <button class="row" type="button" data-action="edit-field" data-field="username"><span class="row-label">Username</span><span class="row-value" id="ev-username"></span><svg class="ic chev" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+          <button class="row" type="button" data-action="edit-field" data-field="pronouns"><span class="row-label">Pronouns</span><span class="row-value" id="ev-pronouns"></span><svg class="ic chev" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+          <button class="row" type="button" data-action="edit-field" data-field="bio"><span class="row-label">Bio</span><span class="row-value" id="ev-bio"></span><svg class="ic chev" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+          <button class="row" type="button" data-action="edit-field" data-field="link"><span class="row-label">Link</span><span class="row-value" id="ev-link"></span><svg class="ic chev" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+        </div>
+
+        <h3 class="group-title">Privacy</h3>
+        <div class="list">
+          <button class="row" type="button" data-action="edit-visibility"><span class="row-label">Profile Visibility</span><span class="row-value" id="ev-visibility"></span><svg class="ic chev" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+          <div class="row row-switch" data-action="toggle" data-key="showFollowerCount">
+            <span class="row-text"><span class="row-label" id="lbl-followers" style="width:auto">Show follower count</span><span class="row-sub">Let others see how many followers you have</span></span>
+            <button class="switch" type="button" role="switch" aria-checked="true" aria-labelledby="lbl-followers" data-action="toggle" data-key="showFollowerCount"></button>
+          </div>
+          <div class="row row-switch" data-action="toggle" data-key="activityStatus">
+            <span class="row-text"><span class="row-label" id="lbl-activity" style="width:auto">Activity status</span><span class="row-sub">Show friends when you're active</span></span>
+            <button class="switch" type="button" role="switch" aria-checked="true" aria-labelledby="lbl-activity" data-action="toggle" data-key="activityStatus"></button>
+          </div>
+          <div class="row row-switch" data-action="toggle" data-key="allowComments">
+            <span class="row-text"><span class="row-label" id="lbl-comments" style="width:auto">Allow comments</span><span class="row-sub">Let people comment on your posts</span></span>
+            <button class="switch" type="button" role="switch" aria-checked="true" aria-labelledby="lbl-comments" data-action="toggle" data-key="allowComments"></button>
+          </div>
+        </div>
+        <p class="group-foot"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-shield"/></svg><span>Changes are saved when you tap Done. Tap Cancel to undo them.</span></p>
+      </div>
+    </div>
+
+    <!-- FIELD EDITOR (Name, Username, Pronouns, Bio, Link) -->
+    <section class="page page-sub" id="fieldPage" role="dialog" aria-modal="true" aria-labelledby="fieldTitle" hidden>
+      <header class="navbar">
+        <button class="nav-text" type="button" data-action="field-cancel">Cancel</button>
+        <h2 id="fieldTitle">Bio</h2>
+        <button class="nav-text strong" type="button" data-action="field-done">Done</button>
+      </header>
+      <div class="page-scroll field-body">
+        <label class="field-label" id="fieldLabel" for="fieldInput">Bio</label>
+        <div class="field-box">
+          <span class="field-prefix" id="fieldPrefix" aria-hidden="true" hidden>@</span>
+          <input id="fieldInput" type="text" autocomplete="off" aria-describedby="fieldCounter fieldError fieldHelpText">
+          <textarea id="fieldTextarea" rows="6" aria-describedby="fieldCounter fieldError fieldHelpText" hidden></textarea>
+        </div>
+        <div class="field-meta">
+          <span class="field-error" id="fieldError" aria-live="polite"></span>
+          <span class="counter" id="fieldCounter"></span>
+        </div>
+        <div class="chips" id="fieldChips" hidden></div>
+        <div class="field-help" id="fieldHelp"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-shield"/></svg><span id="fieldHelpText"></span></div>
+      </div>
+    </section>
+
+    <!-- PROFILE VISIBILITY -->
+    <section class="page page-sub" id="visPage" role="dialog" aria-modal="true" aria-labelledby="visTitle" hidden>
+      <header class="navbar">
+        <button class="nav-text" type="button" data-action="vis-done"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>Back</button>
+        <h2 id="visTitle">Profile Visibility</h2>
+        <button class="nav-text strong" type="button" data-action="vis-done">Done</button>
+      </header>
+      <div class="page-scroll">
+        <h3 class="group-title" id="visGroupLabel">Who can see your profile?</h3>
+        <div class="vis-list" role="radiogroup" aria-labelledby="visGroupLabel">
+          <label class="vis-opt">
+            <input type="radio" name="visibility" value="public">
+            <span class="vis-icon" aria-hidden="true"><svg class="ic"><use href="#i-globe"/></svg></span>
+            <span class="vis-text"><strong>Public</strong><span>Anyone can see this profile.</span></span>
+            <span class="radio" aria-hidden="true"></span>
+          </label>
+          <label class="vis-opt">
+            <input type="radio" name="visibility" value="friends">
+            <span class="vis-icon" aria-hidden="true"><svg class="ic"><use href="#i-users"/></svg></span>
+            <span class="vis-text"><strong>Friends</strong><span>Only approved friends can see the full profile.</span></span>
+            <span class="radio" aria-hidden="true"></span>
+          </label>
+          <label class="vis-opt">
+            <input type="radio" name="visibility" value="private">
+            <span class="vis-icon" aria-hidden="true"><svg class="ic"><use href="#i-lock"/></svg></span>
+            <span class="vis-text"><strong>Private</strong><span>Only approved people can see the profile and posts.</span></span>
+            <span class="radio" aria-hidden="true"></span>
+          </label>
+        </div>
+        <div class="vis-explainer" id="visExplainer" aria-live="polite"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- =====================================================================
+       BOTTOM SHEETS
+       ===================================================================== -->
+  <div class="sheet-wrap" id="sheetPhoto" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetPhotoTitle">
+      <div class="grabber" aria-hidden="true"></div>
+      <h2 class="sheet-title" id="sheetPhotoTitle">Profile Photo</h2>
+      <p class="sheet-tip"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-bulb"/></svg><span>Photos can show more than you think, like a school logo, a house number, or a street sign. Your photo stays on this device.</span></p>
+      <div class="sheet-group">
+        <button class="sheet-btn" type="button" data-action="choose-photo"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg>Choose Photo</button>
+        <button class="sheet-btn danger" type="button" data-action="remove-photo" id="btnRemovePhoto"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg><span id="removePhotoLabel">Remove Current Photo</span></button>
+      </div>
+      <button class="sheet-cancel" type="button" data-action="close-top">Cancel</button>
+    </div>
+  </div>
+
+  <div class="sheet-wrap" id="sheetViewAs" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetViewAsTitle">
+      <div class="grabber" aria-hidden="true"></div>
+      <h2 class="sheet-title" id="sheetViewAsTitle">View Profile As…</h2>
+      <p class="sheet-sub">Different audiences see different things. Pick one to preview.</p>
+      <div class="sheet-group">
+        <button class="sheet-btn" type="button" data-action="set-view" data-view="public"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><span>Public<small>Someone who doesn't know you</small></span></button>
+        <button class="sheet-btn" type="button" data-action="set-view" data-view="friend"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><span>Friend<small>Someone you approved</small></span></button>
+        <button class="sheet-btn" type="button" data-action="set-view" data-view="me"><svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg><span>Only Me<small>Everything, including hidden details</small></span></button>
+      </div>
+      <button class="sheet-cancel" type="button" data-action="close-top">Cancel</button>
+    </div>
+  </div>
+
+  <div class="sheet-wrap" id="sheetMenu" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetMenuTitle">
+      <div class="grabber" aria-hidden="true"></div>
+      <h2 class="sheet-title" id="sheetMenuTitle">Profile options</h2>
+      <div class="sheet-group">
+        <button class="sheet-btn" type="button" data-action="menu-go" data-go="view-as"><svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg>View Profile As…</button>
+        <button class="sheet-btn" type="button" data-action="menu-go" data-go="share-profile"><svg class="ic" aria-hidden="true"><use href="#i-share"/></svg>Share Profile</button>
+        <button class="sheet-btn" type="button" data-action="menu-go" data-go="print"><svg class="ic" aria-hidden="true"><use href="#i-printer"/></svg>Print My Profile</button>
+        <button class="sheet-btn danger" type="button" data-action="menu-go" data-go="reset"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg>Start Over</button>
+      </div>
+      <button class="sheet-cancel" type="button" data-action="close-top">Cancel</button>
+    </div>
+  </div>
+
+  <div class="sheet-wrap" id="sheetShare" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetShareTitle">
+      <div class="grabber" aria-hidden="true"></div>
+      <h2 class="sheet-title" id="sheetShareTitle">Share Profile</h2>
+      <div id="shareCard"></div>
+      <p class="share-note" id="shareNote"></p>
+      <div class="share-btns">
+        <button class="btn" type="button" data-action="share-preview"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-eye"/></svg>See what they see</button>
+        <button class="btn" type="button" data-action="copy-link"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-copy"/></svg>Copy Link</button>
+      </div>
+      <button class="sheet-cancel" type="button" data-action="close-top">Done</button>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODALS
+       ===================================================================== -->
+  <div class="alert-wrap" id="alertWrap" hidden>
+    <div class="alert" role="alertdialog" aria-modal="true" aria-labelledby="alertTitle" aria-describedby="alertMsg">
+      <div class="alert-icon" id="alertIcon" aria-hidden="true"><svg class="ic"><use href="#i-shield"/></svg></div>
+      <h2 id="alertTitle"></h2>
+      <div id="alertMsg"></div>
+      <p class="alert-note" id="alertNote" hidden></p>
+      <div class="alert-actions" id="alertActions"></div>
+    </div>
+  </div>
+
+  <div class="post-wrap" id="postWrap" hidden>
+    <article class="post-modal" role="dialog" aria-modal="true" aria-labelledby="postUser">
+      <header class="post-head">
+        <img id="postAvatar" alt="">
+        <div><strong id="postUser"></strong><span>Simulated post</span></div>
+        <button class="icon-btn" type="button" data-action="close-top" aria-label="Close post"><svg class="ic"><use href="#i-x"/></svg></button>
+      </header>
+      <div class="tile post-media" id="postMedia" role="img"><span class="tile-emoji" id="postEmoji" aria-hidden="true"></span><span class="tile-title" id="postMediaTitle" aria-hidden="true"></span></div>
+      <div class="post-actions">
+        <button class="icon-btn like-btn" type="button" id="postLike" data-action="post-like" aria-pressed="false" aria-label="Like"><svg class="ic"><use href="#i-heart"/></svg></button>
+        <button class="icon-btn" type="button" data-action="post-comment" aria-label="Comment"><svg class="ic"><use href="#i-comment"/></svg></button>
+        <button class="icon-btn" type="button" data-action="sim-toast" data-msg="Sharing is turned off in this simulation." aria-label="Share"><svg class="ic"><use href="#i-send"/></svg></button>
+      </div>
+      <div class="post-body">
+        <p class="post-likes" id="postLikes" aria-live="polite"></p>
+        <p class="post-caption" id="postCaption"></p>
+        <ul class="post-comments" id="postComments"></ul>
+        <p class="post-time" id="postTime"></p>
+        <p class="post-sim">This post and its comments are part of a classroom simulation.</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="status" aria-live="polite"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-check"/></svg><span id="toastText"></span></div>
+</div>
+
+<!-- IMAGE INPUT (local only, never uploaded) -->
+<input type="file" id="fileInput" class="visually-hidden-input" accept="image/*" tabindex="-1" aria-hidden="true">
+
+<!-- PRINT LAYOUT (filled by JavaScript) -->
+<div id="printSheet" aria-hidden="true"></div>
+
+<noscript><p style="padding:24px;font-family:sans-serif">This classroom app needs JavaScript turned on.</p></noscript>
+
+<script>
+"use strict";
+
+// =====================================================================
+// CONFIG — teachers can edit everything in this object
+// =====================================================================
+const CONFIG = {
+  appName: "My Online Profile",
+  sampleProfile: {
+    name: "Alex Chen",
+    username: "alex.draws",
+    pronouns: "",
+    bio: "🎨 I love drawing\n📚 Book lover\n🏀 Basketball\n🌱 Always learning",
+    link: "alexsketchbook.example",
+    privacy: "public",            // "public", "friends", or "private"
+    followers: 248,
+    following: 183,
+    showFollowerCount: true,
+    activityStatus: true,
+    allowComments: true
+  },
+  bioLimit: 150,
+  nameLimit: 30,
+  usernameLimit: 30,
+  pronounsLimit: 20,
+  linkLimit: 60,
+  captionLimit: 200,
+  // Extra words or phrases that trigger the "Check before sharing" reminder.
+  // (Phone numbers, emails, addresses, birthdays, school IDs, passwords and
+  //  precise locations are also detected automatically by patterns below.)
+  warningTerms: [
+    "password", "passcode", "home address", "my address", "i live at", "i live on",
+    "student id", "school id", "student number", "phone number", "call me at", "text me at",
+    "my birthday is", "born on", "密碼", "學號", "我住在", "電話"
+  ],
+  safetyNote: "Automatic checks can miss things. Always review your profile carefully.",
+  usernameTip: "Avoid using private information such as your birthday, phone number, school ID, or exact location in your username.",
+  simulationNotice: "Nothing you create here is posted online. Your profile information stays in this browser session.",
+  reflectionQuestions: [
+    "What information did I choose to share?",
+    "What information did I decide to keep private?",
+    "Who should be able to see my profile?"
+  ]
+};
+
+// =====================================================================
+// SAMPLE CONTENT (all fictional)
+// =====================================================================
+const SAMPLE_POSTS = [
+  { id:"p1", emoji:"🦊", title:"Sketchbook Sunday", caption:"Finished this little fox in my sketchbook. Colored pencils only! ✏️", bg:["#ffe1cf","#f8bfa0"], likes:64, daysAgo:1,
+    comments:[["jamie.sketches","The tail is so good 😍"],["riley_hoops","Teach me how to draw!"]] },
+  { id:"p2", emoji:"🏀", title:"Practice day", caption:"Made 8 free throws in a row at practice today 🏀", bg:["#d4e4ff","#a3bff2"], likes:51, daysAgo:2,
+    comments:[["riley_hoops","Let's gooo 🔥"]] },
+  { id:"p3", emoji:"📚", title:"Currently reading", caption:"Halfway through a mystery novel and I can't put it down 📚", bg:["#ebe2ff","#cbbaf3"], likes:38, daysAgo:3,
+    comments:[["sam.reads","What book is it? 👀"]] },
+  { id:"p4", emoji:"🐱", title:"Mochi", caption:"Mochi found the sunniest spot in the house again ☀️", bg:["#fff2c6","#f8da8a"], likes:97, daysAgo:4,
+    comments:[["morgan.plays","MOCHI 😭💛"],["jamie.sketches","Cutest cat ever"]] },
+  { id:"p5", emoji:"🌿", title:"Weekend hike", caption:"Fresh air and green trees on the weekend trail 🌿", bg:["#d6f2e0","#9fdcb7"], likes:45, daysAgo:6,
+    comments:[["nature.notes","So peaceful!"]] },
+  { id:"p6", emoji:"🎹", title:"New song", caption:"Learning a new piece on the keyboard. Slowly getting there 🎶", bg:["#ffd9e6","#f3aac4"], likes:33, daysAgo:8,
+    comments:[["morgan.plays","Sounds amazing already"]] },
+  { id:"p7", emoji:"🔬", title:"Science project", caption:"Our team's water filter project for science class 💧", bg:["#d3f1f5","#95d6e1"], likes:29, daysAgo:10,
+    comments:[["sam.reads","Great teamwork!"]] },
+  { id:"p8", emoji:"🍜", title:"Favorite food", caption:"Beef noodle soup is the best rainy-day food 🍜", bg:["#ffe3cd","#f5c195"], likes:72, daysAgo:12,
+    comments:[["riley_hoops","Now I'm hungry"]] },
+  { id:"p9", emoji:"🧶", title:"New hobby", caption:"Trying crochet for the first time. It's a… coaster? 🧶", bg:["#ebe6dc","#cfc5b2"], likes:41, daysAgo:15,
+    comments:[["jamie.sketches","It's perfect 😂"]] }
+];
+
+const FEED = [
+  { id:"f1", user:"jamie.sketches", name:"Jamie", emoji:"🖍️", title:"Color study", caption:"Trying a new color palette today. Which one is your favorite?", bg:["#fde2cf","#f6c4a6"], likes:42, time:"1h" },
+  { id:"f2", user:"riley_hoops", name:"Riley", emoji:"🏀", title:"Team practice", caption:"Great practice today. Teamwork makes it fun!", bg:["#d6e6ff","#a8c4f2"], likes:87, time:"3h" },
+  { id:"f3", user:"sam.reads", name:"Sam", emoji:"📖", title:"Book club pick", caption:"Our book club picked a graphic novel this month 📚", bg:["#ebe2ff","#cdbcf4"], likes:31, time:"5h" },
+  { id:"f4", user:"nature.notes", name:"Nature Notes", emoji:"🌻", title:"Garden update", caption:"The sunflowers are taller than me now 🌻", bg:["#fff3c4","#f7dc85"], likes:120, time:"1d" }
+];
+
+const EXPLORE = [
+  { emoji:"✏️", title:"Drawing tips", text:"Start any sketch with simple shapes", bg:["#ffe5d4","#f9c9ab"], tags:"art drawing sketch" },
+  { emoji:"🚀", title:"Space facts", text:"Why Saturn has rings", bg:["#dbe3ff","#aebdf3"], tags:"space science planets" },
+  { emoji:"🍳", title:"Easy snacks", text:"No-cook recipes to try at home", bg:["#fff0c9","#f6d68b"], tags:"food recipes cooking" },
+  { emoji:"🐢", title:"Animal facts", text:"How far sea turtles travel", bg:["#d6f3e1","#a1dcb9"], tags:"animals nature ocean" },
+  { emoji:"🎸", title:"Music practice", text:"Ten-minute warm-ups", bg:["#ffdbe7","#f2aec6"], tags:"music guitar practice" },
+  { emoji:"🧩", title:"Puzzles", text:"A new riddle every day", bg:["#e9e3ff","#c9bbf2"], tags:"puzzles games riddles" },
+  { emoji:"🌍", title:"Our planet", text:"Small ways to reduce waste", bg:["#d3f0f4","#98d4df"], tags:"planet environment nature" },
+  { emoji:"💻", title:"Coding for fun", text:"Make a simple animation", bg:["#e6e9ee","#c4cad4"], tags:"coding computers technology" }
+];
+
+const STYLES = [
+  { emoji:"🎨", title:"Art", bg:["#ffe1cf","#f8bfa0"] },
+  { emoji:"⚽", title:"Sports", bg:["#d4e4ff","#a3bff2"] },
+  { emoji:"📖", title:"Reading", bg:["#ebe2ff","#cbbaf3"] },
+  { emoji:"🌈", title:"Fun day", bg:["#d6f2e0","#9fdcb7"] },
+  { emoji:"🎵", title:"Music", bg:["#ffd9e6","#f3aac4"] },
+  { emoji:"🐾", title:"Pets", bg:["#fff2c6","#f8da8a"] }
+];
+
+const PRIVACY_INFO = {
+  public:  { label:"Public",  icon:"i-globe", desc:"Anyone can see this profile." },
+  friends: { label:"Friends", icon:"i-users", desc:"Only approved friends can see the full profile." },
+  private: { label:"Private", icon:"i-lock",  desc:"Only approved people can see the profile and posts." }
+};
+
+const VIEW_INFO = {
+  public: { title:"Public View",  sub:"How a stranger sees your profile" },
+  friend: { title:"Friend View",  sub:"How an approved friend sees your profile" },
+  me:     { title:"Only Me",      sub:"Everything on your profile, including hidden details" }
+};
+
+// =====================================================================
+// APP STATE
+// =====================================================================
+let profile = null;        // saved profile
+let posts = [];            // saved posts
+let draft = null;          // temporary copy while Edit Profile is open
+let viewAs = null;         // null = owner, or "public" | "friend" | "me"
+let activeTab = "profile";
+let contentTab = "posts";
+let photoTarget = null;    // { kind: "avatar" | "cover", scope: "profile" | "draft" }
+let fieldKey = null;       // which field the field editor is editing
+let currentPostId = null;
+let createStyle = 0;
+let feedLikes = {};
+let activityState = { followBack:false, request:"pending" };
+
+const STORE_KEY = "myOnlineProfile.session.v1";
+
+// =====================================================================
+// UTILITIES
+// =====================================================================
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const clone = o => JSON.parse(JSON.stringify(o));
+const fmt = n => Number(n || 0).toLocaleString("en-US");
+const app = $("#app");
+
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+function icon(id, cls = ""){ return `<svg class="ic ${cls}" aria-hidden="true"><use href="#${id}"/></svg>`; }
+function setIcon(svg, id){ const u = svg && svg.querySelector("use"); if (u) u.setAttribute("href", "#" + id); }
+
+const segmenter = (typeof Intl !== "undefined" && Intl.Segmenter) ? new Intl.Segmenter(undefined, { granularity:"grapheme" }) : null;
+function graphemes(s){
+  s = String(s || "");
+  return segmenter ? Array.from(segmenter.segment(s), x => x.segment) : Array.from(s);
+}
+function listJoin(arr){
+  if (arr.length <= 1) return arr.join("");
+  if (arr.length === 2) return arr[0] + " and " + arr[1];
+  return arr.slice(0, -1).join(", ") + ", and " + arr[arr.length - 1];
+}
+function timeAgo(days){
+  if (!days) return "Just now";
+  return days === 1 ? "1 day ago" : days + " days ago";
+}
+function svgURL(svg){ return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg); }
+function hashStr(s){ let h = 2166136261; for (const ch of String(s)) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+
+const DEFAULT_COVER = svgURL(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice">' +
+  '<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cbd7f6"/><stop offset="1" stop-color="#f2e8f0"/></linearGradient></defs>' +
+  '<rect width="1200" height="400" fill="url(#s)"/><circle cx="905" cy="130" r="56" fill="#fff5d9"/>' +
+  '<path d="M0 270C180 200 330 232 480 256S800 302 1200 214V400H0Z" fill="#aabdea"/>' +
+  '<path d="M0 322C220 266 420 300 640 318S980 332 1200 290V400H0Z" fill="#8ba3dc"/>' +
+  '<path d="M0 362C260 332 520 350 760 362S1050 368 1200 346V400H0Z" fill="#6f88cb"/></svg>'
+);
+const HIDDEN_COVER = svgURL('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect width="1200" height="400" fill="#e9ecf1"/></svg>');
+
+function initials(name){
+  const words = String(name || "").trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return "?";
+  const first = graphemes(words[0])[0] || "";
+  const last = words.length > 1 ? (graphemes(words[words.length - 1])[0] || "") : "";
+  return (first + last).toUpperCase();
+}
+const avatarCache = {};
+function initialsAvatar(name){
+  const key = String(name || "");
+  if (avatarCache[key]) return avatarCache[key];
+  const colors = ["#3655d4","#7550c4","#1d8468","#bf4f78","#b86a1c","#3a76ad"];
+  const c = colors[hashStr(key) % colors.length];
+  const t = esc(initials(key));
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="' + c + '"/>' +
+    '<text x="100" y="100" dy=".35em" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="78" font-weight="600" fill="#ffffff">' + t + '</text></svg>';
+  return (avatarCache[key] = svgURL(svg));
+}
+const avatarOf = p => p.avatar || initialsAvatar(p.name);
+
+function makeSampleProfile(){ return Object.assign(clone(CONFIG.sampleProfile), { avatar:null, cover:null }); }
+
+// =====================================================================
+// PERSISTENCE (sessionStorage only — cleared when the tab closes)
+// =====================================================================
+function loadState(){
+  try { const raw = sessionStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : null; }
+  catch (e) { return null; }
+}
+function saveState(){
+  try { sessionStorage.setItem(STORE_KEY, JSON.stringify({ profile, posts })); }
+  catch (e) {
+    try {
+      const lite = clone(profile); lite.avatar = null; lite.cover = null;
+      sessionStorage.setItem(STORE_KEY, JSON.stringify({ profile: lite, posts }));
+    } catch (_) { /* storage unavailable: app still works in memory */ }
+  }
+}
+
+// =====================================================================
+// AUDIENCE RULES — what each viewer is allowed to see
+// =====================================================================
+function audienceRules(p, viewer){
+  const all = { cover:true, bio:true, link:true, pronouns:true, posts:true, counts:true, activity:!!p.activityStatus, locked:null };
+  if (!viewer || viewer === "me") return all;
+  if (viewer === "friend") return Object.assign(all, { counts:!!p.showFollowerCount });
+  // Stranger (public view)
+  if (p.privacy === "public") return Object.assign(all, { counts:!!p.showFollowerCount });
+  if (p.privacy === "friends") return { cover:true, bio:true, link:false, pronouns:true, posts:false, counts:!!p.showFollowerCount, activity:false, locked:"friends" };
+  return { cover:false, bio:false, link:false, pronouns:false, posts:false, counts:!!p.showFollowerCount, activity:false, locked:"private" };
+}
+function audienceLists(p, viewer){
+  const r = audienceRules(p, viewer);
+  const items = [
+    ["profile photo", true], ["name and username", true], ["cover photo", r.cover],
+    ["bio", r.bio && !!p.bio], ["link", r.link && !!p.link], ["pronouns", r.pronouns && !!p.pronouns],
+    ["posts", r.posts], ["follower count", r.counts], ["activity status", r.activity]
+  ].filter(([label]) => !(label === "bio" && !p.bio) && !(label === "link" && !p.link) && !(label === "pronouns" && !p.pronouns));
+  return { can: items.filter(i => i[1]).map(i => i[0]), cannot: items.filter(i => !i[1]).map(i => i[0]) };
+}
+function capFirst(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// =====================================================================
+// RENDER: PROFILE
+// =====================================================================
+function renderProfile(){
+  const p = profile, v = viewAs, owner = !v;
+  const r = audienceRules(p, v);
+  const priv = PRIVACY_INFO[p.privacy] || PRIVACY_INFO.public;
+
+  app.classList.toggle("is-viewing", !!v);
+  $("#viewBanner").hidden = !v;
+  if (v) { $("#viewBannerTitle").textContent = VIEW_INFO[v].title; $("#viewBannerSub").textContent = VIEW_INFO[v].sub; }
+
+  $("#pfBarUsername").textContent = p.username;
+  setIcon($("#pfBarIcon"), priv.icon);
+  $("#pfBarPrivacy").textContent = ", " + priv.label + " profile";
+
+  // Audience note (View As)
+  const note = $("#audienceNote");
+  if (v) {
+    const lists = audienceLists(p, v);
+    if (v === "me") {
+      note.innerHTML = `<p>${icon("i-eye","ic-sm")}<span>Only you see this view. It includes everything, even details your settings hide from others.</span></p>`;
+    } else {
+      const who = v === "public" ? "A stranger" : "A friend";
+      note.innerHTML =
+        `<p>${icon("i-check","ic-sm yes")}<span><strong>${who} can see:</strong> ${esc(lists.can.join(", "))}</span></p>` +
+        (lists.cannot.length ? `<p>${icon("i-x","ic-sm no")}<span><strong>Hidden from them:</strong> ${esc(lists.cannot.join(", "))}</span></p>` : `<p>${icon("i-globe","ic-sm")}<span>Nothing on your profile is hidden from them.</span></p>`);
+    }
+  }
+  note.hidden = !v;
+
+  // Cover
+  const coverImg = $("#coverImg");
+  coverImg.src = r.cover ? (p.cover || DEFAULT_COVER) : HIDDEN_COVER;
+  coverImg.alt = r.cover ? (p.cover ? "Cover photo" : "Default cover picture of hills") : "Cover photo hidden";
+  const coverBtn = $("#coverBtn");
+  coverBtn.setAttribute("aria-label", owner ? "Change cover photo" : "Cover photo");
+  coverBtn.tabIndex = owner ? 0 : -1;
+
+  // Avatar
+  const av = $("#avatarImg");
+  av.src = avatarOf(p);
+  av.alt = p.name + "'s profile photo";
+  const avBtn = $("#avatarBtn");
+  avBtn.setAttribute("aria-label", owner ? "Change profile photo" : p.name + "'s profile photo");
+  avBtn.tabIndex = owner ? 0 : -1;
+  $("#presenceDot").hidden = !r.activity;
+
+  // Name, pronouns, privacy
+  $("#pfName").textContent = p.name;
+  const pr = $("#pfPronouns");
+  pr.textContent = p.pronouns || "";
+  pr.hidden = !(r.pronouns && p.pronouns);
+  $("#privacyPill").innerHTML = icon(priv.icon, "ic-xs") + esc(priv.label);
+  $("#pfUsername").textContent = "@" + p.username;
+  $("#pfActive").hidden = !r.activity;
+
+  // Stats
+  $("#statPosts").textContent = fmt(posts.length);
+  $("#statFollowers").textContent = fmt(p.followers);
+  $("#statFollowing").textContent = fmt(p.following);
+  $("#statFollowersWrap").hidden = !r.counts;
+  $("#statFollowingWrap").hidden = !r.counts;
+  const hiddenCounts = owner && !p.showFollowerCount;
+  $("#countsHiddenNote").hidden = !hiddenCounts;
+  $("#countsHiddenSr").textContent = hiddenCounts ? " (hidden from others)" : "";
+
+  // Bio & link
+  const bio = $("#pfBio");
+  bio.textContent = p.bio;
+  bio.hidden = !(r.bio && p.bio);
+  $("#pfLinkText").textContent = p.link;
+  $("#pfLink").hidden = !(r.link && p.link);
+
+  // Actions
+  const actions = $("#pfActions");
+  if (owner) {
+    actions.innerHTML =
+      `<button class="btn" type="button" data-action="edit-profile">Edit Profile</button>` +
+      `<button class="btn" type="button" data-action="share-profile">Share Profile</button>`;
+  } else if (v === "public") {
+    actions.innerHTML =
+      `<button class="btn btn-primary" type="button" data-action="sim-toast" data-msg="Following is turned off in this simulation.">Follow</button>` +
+      `<button class="btn" type="button" data-action="sim-toast" data-msg="Messages are turned off in this simulation.">Message</button>`;
+  } else if (v === "friend") {
+    actions.innerHTML =
+      `<button class="btn" type="button" data-action="sim-toast" data-msg="In this view, you are an approved friend.">Following</button>` +
+      `<button class="btn" type="button" data-action="sim-toast" data-msg="Messages are turned off in this simulation.">Message</button>`;
+  } else {
+    actions.innerHTML = "";
+  }
+  actions.hidden = v === "me";
+
+  $("#simText").textContent = CONFIG.simulationNotice;
+  renderContent(r);
+}
+
+function postTile(post){
+  return `<button class="tile" type="button" data-action="open-post" data-post="${esc(post.id)}" style="--c1:${esc(post.bg[0])};--c2:${esc(post.bg[1])}" aria-label="Open post: ${esc(post.title)}">` +
+    `<span class="tile-emoji" aria-hidden="true">${esc(post.emoji)}</span><span class="tile-title" aria-hidden="true">${esc(post.title)}</span></button>`;
+}
+
+function renderContent(r){
+  const locked = $("#lockedPanel"), tabs = $("#contentTabs"), grid = $("#postGrid"), tagged = $("#taggedPanel");
+  if (!r.posts) {
+    locked.hidden = false; tabs.hidden = true; grid.hidden = true; tagged.hidden = true;
+    if (r.locked === "friends") {
+      $("#lockedTitle").textContent = "Only friends can see this profile";
+      $("#lockedText").textContent = "Posts and links are shared with approved friends only.";
+    } else {
+      $("#lockedTitle").textContent = "This profile is private";
+      $("#lockedText").textContent = "Follow this account to see their photos and posts. They have to approve you first.";
+    }
+    return;
+  }
+  locked.hidden = true; tabs.hidden = false;
+  grid.innerHTML = posts.map(postTile).join("");
+  $$("#contentTabs [role=tab]").forEach(b => {
+    const on = b.dataset.tabname === contentTab;
+    b.setAttribute("aria-selected", String(on));
+    b.tabIndex = on ? 0 : -1;
+  });
+  grid.hidden = contentTab !== "posts";
+  tagged.hidden = contentTab !== "tagged";
+}
+
+function renderAll(){
+  renderProfile();
+  $("#tabAvatar").src = avatarOf(profile);
+  renderPrint();
+}
+
+// =====================================================================
+// OVERLAY MANAGER (sheets, modals, edit pages) with focus handling
+// =====================================================================
+const overlayStack = [];
+const background = () => [$("#screens"), $("#tabbar"), $("#viewBanner")];
+
+function focusables(root){
+  return $$('button:not([disabled]), input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])', root)
+    .filter(el => el.getClientRects().length && !el.closest("[hidden]") && !el.closest("[inert]"));
+}
+function updateInert(){
+  const n = overlayStack.length;
+  background().forEach(el => { if (el) el.inert = n > 0; });
+  overlayStack.forEach((o, i) => { o.inertTarget.inert = i < n - 1; });
+}
+function openOverlay(el, opts = {}){
+  clearTimeout(el._hideTimer);
+  overlayStack.push({
+    el, onClose: opts.onClose || (() => closeOverlay(el)),
+    inertTarget: opts.inertTarget || el,
+    returnFocus: document.activeElement
+  });
+  el.hidden = false;
+  void el.offsetWidth;            // force layout so the transition runs
+  el.classList.add("is-open");
+  updateInert();
+  const delay = opts.focusDelay != null ? opts.focusDelay : 60;
+  setTimeout(() => {
+    const target = opts.initialFocus || focusables(el)[0];
+    if (target && overlayStack.length && overlayStack[overlayStack.length - 1].el === el) target.focus({ preventScroll:true });
+  }, delay);
+}
+function closeOverlay(el, opts = {}){
+  const idx = overlayStack.findIndex(o => o.el === el);
+  if (idx === -1) return;
+  const entry = overlayStack.splice(idx, 1)[0];
+  entry.inertTarget.inert = false;
+  el.classList.remove("is-open");
+  updateInert();
+  el._hideTimer = setTimeout(() => { el.hidden = true; }, 340);
+  if (opts.restoreFocus !== false && entry.returnFocus && document.contains(entry.returnFocus) && entry.returnFocus.getClientRects().length) {
+    try { entry.returnFocus.focus({ preventScroll:true }); } catch (_) {}
+  }
+}
+function closeTopOverlay(){
+  const top = overlayStack[overlayStack.length - 1];
+  if (top) top.onClose();
+}
+
+document.addEventListener("keydown", e => {
+  const top = overlayStack[overlayStack.length - 1];
+  if (!top) return;
+  if (e.key === "Escape" && !e.isComposing) { e.preventDefault(); top.onClose(); return; }
+  if (e.key === "Tab") {
+    const list = focusables(top.el);
+    if (!list.length) return;
+    const first = list[0], last = list[list.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !top.el.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && (document.activeElement === last || !top.el.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+  }
+});
+
+// Tap on the dimmed backdrop closes a sheet or modal
+["#sheetPhoto", "#sheetViewAs", "#sheetMenu", "#sheetShare", "#postWrap"].forEach(sel => {
+  const el = $(sel);
+  el.addEventListener("click", e => { if (e.target === el) closeTopOverlay(); });
+});
+function openSheet(sel){ const el = $(sel); openOverlay(el); }
+
+// =====================================================================
+// NAVIGATION
+// =====================================================================
+function showTab(tab){
+  activeTab = tab;
+  $$(".screen").forEach(s => { s.hidden = s.dataset.screen !== tab; });
+  $$(".tab").forEach(b => {
+    if (b.dataset.tab === tab) b.setAttribute("aria-current", "page");
+    else b.removeAttribute("aria-current");
+  });
+}
+function setContentTab(name){
+  contentTab = name;
+  renderContent(audienceRules(profile, viewAs));
+  const btn = $(`#contentTabs [data-tabname="${name}"]`);
+  if (btn) btn.focus({ preventScroll:true });
+}
+$("#contentTabs").addEventListener("keydown", e => {
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); setContentTab(contentTab === "posts" ? "tagged" : "posts"); }
+});
+
+// =====================================================================
+// VIEW PROFILE AS
+// =====================================================================
+function setViewAs(v){
+  closeOverlay($("#sheetViewAs"), { restoreFocus:false });
+  viewAs = v;
+  contentTab = "posts";
+  showTab("profile");
+  renderProfile();
+  $("#screen-profile").scrollTop = 0;
+  setTimeout(() => $("#viewBannerTitle").focus({ preventScroll:true }), 80);
+}
+function returnToProfile(){
+  viewAs = null;
+  renderProfile();
+  $("#screen-profile").scrollTop = 0;
+  toast("Back to your profile");
+  setTimeout(() => { const b = $(".viewas-bar"); if (b) b.focus({ preventScroll:true }); }, 60);
+}
+
+// =====================================================================
+// EDITING — temporary draft state separate from the saved profile
+// =====================================================================
+function openEdit(){
+  if (viewAs) return;
+  draft = clone(profile);
+  renderEdit();
+  $("#editRoot .page-scroll").scrollTop = 0;
+  openOverlay($("#editLayer"), { onClose: cancelEdit, inertTarget: $("#editRoot"), initialFocus: $("#editRoot .nav-text"), focusDelay: 360 });
+}
+function cancelEdit(){
+  if (!draft) return;
+  const changed = JSON.stringify(draft) !== JSON.stringify(profile);
+  draft = null;
+  closeOverlay($("#editLayer"));
+  if (changed) toast("Changes discarded");
+}
+function doneEdit(){
+  if (!draft) return;
+  profile = draft;
+  draft = null;
+  saveState();
+  renderAll();
+  closeOverlay($("#editLayer"));
+  toast("Profile updated");
+}
+function setRow(id, value, placeholder){
+  const el = $("#" + id);
+  const empty = !value;
+  el.textContent = empty ? placeholder : value;
+  el.classList.toggle("placeholder", empty);
+}
+function renderEdit(){
+  const d = draft; if (!d) return;
+  $("#editCoverImg").src = d.cover || DEFAULT_COVER;
+  $("#editAvatarImg").src = avatarOf(d);
+  $("#evAvatarThumb").src = avatarOf(d);
+  $("#evCoverThumb").src = d.cover || DEFAULT_COVER;
+  setRow("ev-name", d.name, "Add name");
+  setRow("ev-username", d.username ? "@" + d.username : "", "Add username");
+  setRow("ev-pronouns", d.pronouns, "Add pronouns");
+  setRow("ev-bio", (d.bio || "").replace(/\s*\n+\s*/g, "  "), "Add bio");
+  setRow("ev-link", d.link, "Add link");
+  $("#ev-visibility").textContent = PRIVACY_INFO[d.privacy].label;
+  $$("#editLayer .switch").forEach(s => s.setAttribute("aria-checked", String(!!d[s.dataset.key])));
+}
+function toggleSetting(key){
+  if (!draft || !(key in draft)) return;
+  draft[key] = !draft[key];
+  renderEdit();
+}
+
+// ---------- Field editor ----------
+const FIELDS = {
+  name:     { title:"Name", type:"input", limit:() => CONFIG.nameLimit, placeholder:"Name", required:true, autocap:"words",
+              help:"Your name appears at the top of your profile. Many people use a first name or a nickname instead of their full name." },
+  username: { title:"Username", type:"input", limit:() => CONFIG.usernameLimit, placeholder:"username", prefix:"@", autocap:"none",
+              help:() => CONFIG.usernameTip },
+  pronouns: { title:"Pronouns", type:"input", limit:() => CONFIG.pronounsLimit, placeholder:"Add pronouns", autocap:"none",
+              chips:["she/her","he/him","they/them"], help:"Optional. Only add pronouns if you want to." },
+  bio:      { title:"Bio", type:"textarea", limit:() => CONFIG.bioLimit, placeholder:"Write something about your interests…", autocap:"sentences",
+              help:"Share hobbies and interests, not personal details like where you live or go to school." },
+  link:     { title:"Link", type:"input", limit:() => CONFIG.linkLimit, placeholder:"example.com", autocap:"none", inputmode:"url",
+              help:"Only add a link you'd be comfortable with anyone opening. Links aren't clickable in this simulation." }
+};
+const fieldInput = $("#fieldInput"), fieldArea = $("#fieldTextarea");
+const activeFieldEl = () => (FIELDS[fieldKey] && FIELDS[fieldKey].type === "textarea") ? fieldArea : fieldInput;
+
+function openField(key){
+  if (!draft || !FIELDS[key]) return;
+  fieldKey = key;
+  const f = FIELDS[key];
+  const isArea = f.type === "textarea";
+  $("#fieldTitle").textContent = f.title;
+  $("#fieldLabel").textContent = f.title;
+  $("#fieldLabel").setAttribute("for", isArea ? "fieldTextarea" : "fieldInput");
+  fieldInput.hidden = isArea;
+  fieldArea.hidden = !isArea;
+  $("#fieldPrefix").hidden = !f.prefix;
+  const el = activeFieldEl();
+  el.value = draft[key] || "";
+  el.placeholder = f.placeholder;
+  el.setAttribute("autocapitalize", f.autocap);
+  el.setAttribute("autocorrect", f.autocap === "none" ? "off" : "on");
+  el.spellcheck = f.autocap !== "none";
+  if (!isArea) {
+    el.type = "text";
+    el.setAttribute("inputmode", f.inputmode || "text");
+    el.setAttribute("enterkeyhint", "done");
+  }
+  const chips = $("#fieldChips");
+  if (f.chips) {
+    chips.innerHTML = f.chips.map(c => `<button class="chip" type="button" data-action="chip" data-value="${esc(c)}">${esc(c)}</button>`).join("");
+    chips.hidden = false;
+  } else { chips.innerHTML = ""; chips.hidden = true; }
+  $("#fieldHelpText").textContent = typeof f.help === "function" ? f.help() : f.help;
+  $("#fieldError").textContent = "";
+  updateFieldCounter();
+  $("#fieldPage .page-scroll").scrollTop = 0;
+  $("#editLayer").classList.add("has-sub");
+  openOverlay($("#fieldPage"), { onClose: cancelField, initialFocus: el, focusDelay: 340 });
+}
+function closeSubPage(sel){
+  closeOverlay($(sel));
+  if (!overlayStack.some(o => o.el.classList.contains("page-sub"))) $("#editLayer").classList.remove("has-sub");
+}
+function cancelField(){ fieldKey && closeSubPage("#fieldPage"); }
+
+function updateFieldCounter(){
+  const f = FIELDS[fieldKey]; if (!f) return;
+  const n = graphemes(activeFieldEl().value).length, lim = f.limit();
+  const c = $("#fieldCounter");
+  c.textContent = `${n} / ${lim}`;
+  c.classList.toggle("near", n >= lim - 10 && n < lim);
+  c.classList.toggle("full", n >= lim);
+}
+
+// Character limits that count emoji correctly and don't break Chinese/Japanese input
+function attachLimiter(el, getLimit, transform, after){
+  let composing = false;
+  el.addEventListener("compositionstart", () => { composing = true; });
+  el.addEventListener("compositionend", () => { composing = false; apply(); });
+  el.addEventListener("input", e => {
+    if (composing || e.isComposing) { if (after) after(); return; }
+    apply();
+  });
+  function apply(){
+    const before = el.value;
+    let v = transform ? transform(before) : before;
+    const g = graphemes(v), lim = getLimit();
+    if (g.length > lim) v = g.slice(0, lim).join("");
+    if (v !== before) {
+      const pos = el.selectionStart == null ? v.length : el.selectionStart;
+      const np = Math.max(0, Math.min(v.length, pos - (before.length - v.length)));
+      el.value = v;
+      try { el.setSelectionRange(np, np); } catch (_) {}
+    }
+    if (after) after();
+  }
+}
+function usernameTransform(v){
+  if (fieldKey !== "username") return v;
+  const lowered = v.toLowerCase();
+  const cleaned = lowered.replace(/^@+/, "").replace(/[^a-z0-9._]/g, "");
+  if (cleaned !== lowered.replace(/^@+/, "")) $("#fieldError").textContent = "Usernames can use letters, numbers, periods (.) and underscores (_).";
+  return cleaned;
+}
+attachLimiter(fieldInput, () => FIELDS[fieldKey] ? FIELDS[fieldKey].limit() : 999, usernameTransform, updateFieldCounter);
+attachLimiter(fieldArea, () => FIELDS[fieldKey] ? FIELDS[fieldKey].limit() : 999, null, updateFieldCounter);
+fieldInput.addEventListener("keydown", e => { if (e.key === "Enter" && !e.isComposing) { e.preventDefault(); doneField(); } });
+
+function validateField(key, v){
+  if (key === "name" && !v) return "Add a name so people know whose profile this is.";
+  if (key === "username") {
+    if (v.length < 3) return "Usernames need at least 3 characters.";
+    if (/^\.|\.$/.test(v)) return "Usernames can't start or end with a period.";
+    if (/\.\./.test(v)) return "Usernames can't have two periods in a row.";
+  }
+  if (key === "link" && v && !/^(https?:\/\/)?[^\s/.]+(\.[^\s/.]+)+(\/\S*)?$/i.test(v)) return "Enter a web address like example.com.";
+  return "";
+}
+function normalizeField(key, v){
+  if (key === "bio") return v.replace(/\r\n?/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+  if (key === "username") return v.trim().replace(/^@+/, "").toLowerCase();
+  return v.replace(/\s+/g, " ").trim();
+}
+function doneField(){
+  if (!fieldKey || !draft) return;
+  const el = activeFieldEl();
+  const v = normalizeField(fieldKey, el.value);
+  const err = validateField(fieldKey, v);
+  if (err) { $("#fieldError").textContent = err; el.focus(); return; }
+  const key = fieldKey;
+  const hits = checkSafety(v, key);
+  const commit = () => { draft[key] = v; renderEdit(); closeSubPage("#fieldPage"); };
+  if (hits.length) showSafetyAlert(hits, () => el.focus(), commit);
+  else commit();
+}
+
+// ---------- Profile visibility ----------
+function openVisibility(){
+  if (!draft) return;
+  $$('#visPage input[name="visibility"]').forEach(r => { r.checked = r.value === draft.privacy; });
+  renderVisExplainer();
+  $("#editLayer").classList.add("has-sub");
+  openOverlay($("#visPage"), { onClose: () => closeSubPage("#visPage"), initialFocus: $('#visPage input:checked'), focusDelay: 340 });
+}
+function renderVisExplainer(){
+  if (!draft) return;
+  const lists = audienceLists(draft, "public");
+  $("#visExplainer").innerHTML =
+    `<h3>With ${esc(PRIVACY_INFO[draft.privacy].label)} selected</h3>` +
+    `<p>${icon("i-check","ic-sm yes")}<span><strong>Strangers can see:</strong> ${esc(lists.can.join(", "))}</span></p>` +
+    (lists.cannot.length ? `<p>${icon("i-x","ic-sm no")}<span><strong>Hidden from strangers:</strong> ${esc(lists.cannot.join(", "))}</span></p>` : "") +
+    `<p>${icon("i-users","ic-sm")}<span>Approved friends can see your whole profile.</span></p>`;
+}
+$$('#visPage input[name="visibility"]').forEach(r => r.addEventListener("change", () => {
+  if (!draft || !r.checked) return;
+  draft.privacy = r.value;
+  renderEdit();
+  renderVisExplainer();
+}));
+
+// =====================================================================
+// IMAGE UPLOADS — processed on this device only, never uploaded
+// =====================================================================
+const fileInput = $("#fileInput");
+
+function openPhotoSheet(kind){
+  if (viewAs) return;
+  const scope = draft ? "draft" : "profile";
+  photoTarget = { kind, scope };
+  const target = scope === "draft" ? draft : profile;
+  $("#sheetPhotoTitle").textContent = kind === "cover" ? "Change Cover Photo" : "Profile Photo";
+  $("#removePhotoLabel").textContent = kind === "cover" ? "Remove Cover Photo" : "Remove Current Photo";
+  $("#btnRemovePhoto").disabled = !target[kind];
+  openSheet("#sheetPhoto");
+}
+function choosePhoto(){
+  // Must run inside the tap so iPad Safari opens the photo picker
+  fileInput.value = "";
+  fileInput.click();
+  closeOverlay($("#sheetPhoto"));
+}
+function removePhoto(){
+  closeOverlay($("#sheetPhoto"));
+  applyPhoto(null);
+}
+function applyPhoto(dataUrl){
+  if (!photoTarget) return;
+  const { kind, scope } = photoTarget;
+  const label = kind === "cover" ? "Cover photo" : "Profile photo";
+  if (scope === "draft") {
+    if (!draft) return;
+    draft[kind] = dataUrl;
+    renderEdit();
+    toast(dataUrl ? label + " added. Tap Done to save." : label + " removed. Tap Done to save.");
+  } else {
+    profile[kind] = dataUrl;
+    saveState();
+    renderAll();
+    toast(dataUrl ? label + " updated" : label + " removed");
+  }
+}
+function processImage(file, kind){
+  return new Promise((resolve, reject) => {
+    if (!file || (file.type && !/^image\//.test(file.type))) { reject(new Error("not an image")); return; }
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const w = img.naturalWidth, h = img.naturalHeight;
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (kind === "avatar") {
+          const side = Math.min(w, h), size = Math.min(640, side);
+          canvas.width = canvas.height = size;
+          ctx.drawImage(img, (w - side) / 2, (h - side) / 2, side, side, 0, 0, size, size);
+        } else {
+          const scale = Math.min(1, 1600 / w);
+          canvas.width = Math.round(w * scale); canvas.height = Math.round(h * scale);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL("image/jpeg", 0.86));
+      } catch (e) { URL.revokeObjectURL(url); reject(e); }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("load failed")); };
+    img.src = url;
+  });
+}
+fileInput.addEventListener("change", async () => {
+  const file = fileInput.files && fileInput.files[0];
+  if (!file || !photoTarget) return;
+  try {
+    const data = await processImage(file, photoTarget.kind);
+    applyPhoto(data);
+  } catch (e) {
+    toast("That file couldn't be opened. Try a JPG or PNG photo.");
+  } finally {
+    fileInput.value = "";
+  }
+});
+
+// =====================================================================
+// SAFETY CHECK — simple pattern matching to prompt reflection
+// =====================================================================
+const MONTHS = "(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)";
+const SAFETY_CHECKS = [
+  { label:"a phone number", test: t => {
+      const m = t.match(/\+?\d[\d\s().\-]{5,}\d/g) || [];
+      return m.some(s => s.replace(/\D/g, "").length >= 9) || /\b\d{3}[-.\s]\d{4}\b/.test(t) || /\b09\d{2}[-\s]?\d{3}[-\s]?\d{3}\b/.test(t);
+    } },
+  { label:"an email address", test: t => /[a-z0-9._%+\-]+@[a-z0-9\-]+(\.[a-z0-9\-]+)*\.[a-z]{2,}/i.test(t) },
+  { label:"a home address", test: t =>
+      /\b\d{1,5}\s+(?:[a-z0-9'.\-]+\s+){0,4}(?:street|st|avenue|ave|road|rd|lane|ln|drive|dr|boulevard|blvd|court|ct|way|place|pl|terrace|circle|highway|hwy)\b/i.test(t) ||
+      /[路街道巷弄].{0,10}\d+\s*號|\d+\s*號\s*\d*\s*樓/.test(t) },
+  { label:"an exact birthday", test: t =>
+      new RegExp("\\b" + MONTHS + "\\.?\\s+\\d{1,2}(?:st|nd|rd|th)?\\b", "i").test(t) ||
+      new RegExp("\\b\\d{1,2}(?:st|nd|rd|th)?\\s+(?:of\\s+)?" + MONTHS + "\\b", "i").test(t) ||
+      /\b\d{1,2}[\/.\-]\d{1,2}[\/.\-](?:19|20)?\d{2}\b/.test(t) ||
+      /\b(?:19|20)\d{2}[\/.\-]\d{1,2}[\/.\-]\d{1,2}\b/.test(t) ||
+      /\b(?:birthday|bday|b-day|born on|date of birth|dob)\b/i.test(t) ||
+      /生日|\d{1,2}\s*月\s*\d{1,2}\s*[日號]/.test(t) },
+  { label:"a school ID", test: t => /\b(?:student|school)\s*(?:id|number|no\.?|#)/i.test(t) || /學號/.test(t) },
+  { label:"a password", test: t => /\b(?:password|passcode|passwd|pwd|pin code)\b/i.test(t) || /密碼/.test(t) },
+  { label:"a precise location", test: t =>
+      /\b(?:i live (?:at|on|near|next to)|my (?:house|home|apartment) is|home address|my address)\b/i.test(t) ||
+      /-?\d{1,2}\.\d{4,}\s*,\s*-?\d{1,3}\.\d{4,}/.test(t) || /我住在|我家在/.test(t) }
+];
+function checkSafety(text, key){
+  const t = String(text || "");
+  if (!t.trim()) return [];
+  const hits = [];
+  SAFETY_CHECKS.forEach(c => { if (c.test(t)) hits.push(c.label); });
+  if (key === "username" && /(?:19[6-9]\d|20[0-3]\d)/.test(t)) hits.push("a possible birth year");
+  if (!hits.length) {
+    const lower = t.toLowerCase();
+    const term = CONFIG.warningTerms.find(w => w && lower.includes(String(w).toLowerCase()));
+    if (term) hits.push(`the words “${term}”`);
+  }
+  return Array.from(new Set(hits));
+}
+function showSafetyAlert(hits, onEdit, onKeep){
+  showAlert({
+    icon:"i-shield",
+    title:"Check before sharing",
+    message:[
+      "This may contain personal information, like " + listJoin(hits) + ".",
+      "Would you be comfortable with people online seeing this?"
+    ],
+    note: CONFIG.safetyNote,
+    buttons:[
+      { label:"Edit It", cls:"btn-primary", action:onEdit },
+      { label:"Keep It", cls:"", action:onKeep }
+    ]
+  });
+}
+
+// =====================================================================
+// ALERTS / MODALS
+// =====================================================================
+function showAlert({ icon:iconId = "i-shield", neutral = false, title, message, note, buttons }){
+  const wrap = $("#alertWrap");
+  setIcon($("#alertIcon svg"), iconId);
+  $("#alertIcon").classList.toggle("neutral", neutral);
+  $("#alertTitle").textContent = title;
+  $("#alertMsg").innerHTML = (Array.isArray(message) ? message : [message]).map(m => `<p>${esc(m)}</p>`).join("");
+  const n = $("#alertNote");
+  n.textContent = note || ""; n.hidden = !note;
+  const acts = $("#alertActions");
+  acts.className = "alert-actions" + (buttons.length === 2 ? " two" : "");
+  acts.innerHTML = "";
+  buttons.forEach(b => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "btn " + (b.cls || "");
+    btn.textContent = b.label;
+    btn.addEventListener("click", () => { closeOverlay(wrap); if (b.action) b.action(); });
+    acts.appendChild(btn);
+  });
+  const cancelBtn = buttons.find(b => b.isCancel);
+  openOverlay(wrap, {
+    onClose: () => { closeOverlay(wrap); if (cancelBtn && cancelBtn.action) cancelBtn.action(); },
+    initialFocus: acts.querySelector("button")
+  });
+}
+
+// =====================================================================
+// POST DETAIL
+// =====================================================================
+function openPost(id){
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+  currentPostId = id;
+  renderPostModal();
+  $("#postWrap .post-modal").scrollTop = 0;
+  openOverlay($("#postWrap"));
+}
+function renderPostModal(){
+  const post = posts.find(p => p.id === currentPostId);
+  if (!post) return;
+  const p = profile;
+  $("#postAvatar").src = avatarOf(p);
+  $("#postUser").textContent = p.username;
+  const media = $("#postMedia");
+  media.style.setProperty("--c1", post.bg[0]);
+  media.style.setProperty("--c2", post.bg[1]);
+  media.setAttribute("aria-label", "Post picture: " + post.title);
+  $("#postEmoji").textContent = post.emoji;
+  $("#postMediaTitle").textContent = post.title;
+  const like = $("#postLike");
+  like.classList.toggle("is-liked", !!post.liked);
+  like.setAttribute("aria-pressed", String(!!post.liked));
+  like.setAttribute("aria-label", post.liked ? "Unlike" : "Like");
+  like.querySelector("svg").classList.toggle("ic-fill", !!post.liked);
+  const count = (post.likes || 0) + (post.liked ? 1 : 0);
+  $("#postLikes").textContent = fmt(count) + (count === 1 ? " like" : " likes");
+  $("#postCaption").innerHTML = `<strong>${esc(p.username)}</strong> ${esc(post.caption)}`;
+  const list = $("#postComments");
+  if (p.allowComments) {
+    list.innerHTML = (post.comments || []).map(([u, t]) => `<li><strong>${esc(u)}</strong> ${esc(t)}</li>`).join("") ||
+      `<li class="off">No comments yet.</li>`;
+  } else {
+    list.innerHTML = `<li class="off">Comments are turned off for this profile.</li>`;
+  }
+  $("#postTime").textContent = timeAgo(post.daysAgo);
+}
+function popHeart(btn){
+  btn.classList.remove("pop"); void btn.offsetWidth; btn.classList.add("pop");
+}
+function togglePostLike(){
+  const post = posts.find(p => p.id === currentPostId);
+  if (!post) return;
+  post.liked = !post.liked;
+  saveState();
+  renderPostModal();
+  popHeart($("#postLike"));
+}
+
+// =====================================================================
+// HOME / EXPLORE / ACTIVITY (simulated, fictional)
+// =====================================================================
+function renderHome(){
+  $("#homeFeed").innerHTML = FEED.map(f => {
+    const liked = !!feedLikes[f.id];
+    const n = f.likes + (liked ? 1 : 0);
+    return `<article class="feed-item">
+      <header class="feed-head"><img class="feed-av" src="${esc(initialsAvatar(f.name))}" alt=""><div><strong>${esc(f.user)}</strong><span>Fictional account</span></div><span class="feed-time">${esc(f.time)}</span></header>
+      <div class="tile feed-media" style="--c1:${f.bg[0]};--c2:${f.bg[1]}" role="img" aria-label="${esc(f.title)}"><span class="tile-emoji" aria-hidden="true">${f.emoji}</span></div>
+      <div class="feed-actions">
+        <button class="icon-btn like-btn ${liked ? "is-liked" : ""}" type="button" data-action="feed-like" data-id="${f.id}" aria-pressed="${liked}" aria-label="${liked ? "Unlike" : "Like"} ${esc(f.user)}'s post">${icon("i-heart", liked ? "ic-fill" : "")}</button>
+        <button class="icon-btn" type="button" data-action="sim-toast" data-msg="Comments are simulated. Nothing is posted." aria-label="Comment">${icon("i-comment")}</button>
+        <button class="icon-btn" type="button" data-action="sim-toast" data-msg="Sharing is turned off in this simulation." aria-label="Share">${icon("i-send")}</button>
+      </div>
+      <p class="feed-likes">${fmt(n)} likes</p>
+      <p class="feed-cap"><strong>${esc(f.user)}</strong> ${esc(f.caption)}</p>
+    </article>`;
+  }).join("");
+}
+function renderExplore(){
+  const q = ($("#exploreSearch").value || "").trim().toLowerCase();
+  const items = EXPLORE.filter(e => !q || (e.title + " " + e.text + " " + e.tags).toLowerCase().includes(q));
+  $("#exploreGrid").innerHTML = items.map(e =>
+    `<button class="explore-card" type="button" data-action="sim-toast" data-msg="Explore cards are fictional practice content.">
+      <span class="tile" style="--c1:${e.bg[0]};--c2:${e.bg[1]};padding:0"><span class="tile-emoji" aria-hidden="true">${e.emoji}</span></span>
+      <span>${esc(e.title)}</span><small>${esc(e.text)}</small></button>`).join("");
+  $("#exploreEmpty").hidden = items.length > 0;
+}
+function miniThumb(postId){
+  const p = posts.find(x => x.id === postId) || SAMPLE_POSTS.find(x => x.id === postId);
+  if (!p) return "";
+  return `<span class="tile act-thumb" style="--c1:${p.bg[0]};--c2:${p.bg[1]}" aria-hidden="true"><span class="tile-emoji">${p.emoji}</span></span>`;
+}
+function renderActivity(){
+  const a = activityState;
+  const item = (name, html, time, right) =>
+    `<div class="act-item"><img class="feed-av" src="${esc(initialsAvatar(name))}" alt=""><p class="act-text">${html}<time>${time}</time></p>${right || ""}</div>`;
+  let req = "";
+  if (a.request === "pending") {
+    req = `<div class="req-card">
+      ${item("Unknown", "<strong>user_88412</strong> wants to follow you. You have no friends in common.", "1h", "")}
+      <p class="req-tip">Do you know this person in real life? It's okay to say no.</p>
+      <div class="req-actions">
+        <button class="btn btn-primary act-btn" type="button" data-action="req" data-choice="confirm">Confirm</button>
+        <button class="btn act-btn" type="button" data-action="req" data-choice="delete">Delete</button>
+      </div></div>`;
+  } else {
+    req = `<p class="fiction-note" style="background:var(--surface);color:var(--ink-2)">${a.request === "confirm" ? "You accepted the request. In real life, only accept people you know." : "Request removed. Good call if you don't know them."}</p>`;
+  }
+  $("#activityList").innerHTML =
+    `<h2 class="act-head">Follow requests</h2>${req}` +
+    `<h2 class="act-head">Today</h2>` +
+    item("Jamie", "<strong>Jamie</strong> liked your drawing.", "2h", miniThumb("p1")) +
+    item("Riley", "<strong>Riley</strong> started following you.", "4h",
+      `<button class="btn act-btn ${a.followBack ? "" : "btn-primary"}" type="button" data-action="follow-back" aria-pressed="${a.followBack}">${a.followBack ? "Following" : "Follow back"}</button>`) +
+    item("Sam", "<strong>Sam</strong> commented: “What book is it? 👀”", "6h", miniThumb("p3")) +
+    `<h2 class="act-head">This week</h2>` +
+    item("Morgan", "<strong>Morgan</strong> liked your post.", "3d", miniThumb("p6")) +
+    item("Nature Notes", "<strong>Nature Notes</strong> and 12 others liked your hike photo.", "5d", miniThumb("p5")) +
+    item("Taylor", "<strong>Taylor</strong> liked your cat photo.", "6d", miniThumb("p4"));
+}
+
+// =====================================================================
+// CREATE (simulated post)
+// =====================================================================
+function renderCreate(){
+  const s = STYLES[createStyle];
+  const prev = $("#createPreview");
+  prev.style.setProperty("--c1", s.bg[0]);
+  prev.style.setProperty("--c2", s.bg[1]);
+  prev.setAttribute("aria-label", "Post picture preview: " + s.title);
+  $("#createEmoji").textContent = s.emoji;
+  $("#stylePicker").innerHTML = STYLES.map((st, i) =>
+    `<button class="style-opt" type="button" role="radio" aria-checked="${i === createStyle}" aria-label="${esc(st.title)}" tabindex="${i === createStyle ? 0 : -1}" data-action="pick-style" data-index="${i}" style="--c1:${st.bg[0]};--c2:${st.bg[1]}">${st.emoji}</button>`).join("");
+  updateCreateCounter();
+}
+function updateCreateCounter(){
+  const n = graphemes($("#createCaption").value).length, lim = CONFIG.captionLimit;
+  const c = $("#createCounter");
+  c.textContent = `${n} / ${lim}`;
+  c.classList.toggle("near", n >= lim - 10 && n < lim);
+  c.classList.toggle("full", n >= lim);
+}
+attachLimiter($("#createCaption"), () => CONFIG.captionLimit, null, updateCreateCounter);
+$("#stylePicker").addEventListener("keydown", e => {
+  if (!["ArrowRight","ArrowLeft","ArrowDown","ArrowUp"].includes(e.key)) return;
+  e.preventDefault();
+  const d = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
+  createStyle = (createStyle + d + STYLES.length) % STYLES.length;
+  renderCreate();
+  $(`#stylePicker [data-index="${createStyle}"]`).focus();
+});
+function shareCreatedPost(){
+  const ta = $("#createCaption");
+  const caption = ta.value.replace(/\n{3,}/g, "\n\n").trim();
+  if (!caption) { toast("Add a caption first"); ta.focus(); return; }
+  const publish = () => {
+    const s = STYLES[createStyle];
+    posts.unshift({ id:"c" + Date.now(), emoji:s.emoji, title:s.title, caption, bg:s.bg.slice(), likes:0, daysAgo:0, comments:[] });
+    saveState();
+    ta.value = "";
+    updateCreateCounter();
+    contentTab = "posts";
+    renderAll();
+    showTab("profile");
+    $("#screen-profile").scrollTop = 0;
+    toast("Posted to your profile (simulation)");
+  };
+  const hits = checkSafety(caption, "caption");
+  if (hits.length) showSafetyAlert(hits, () => ta.focus(), publish);
+  else publish();
+}
+
+// =====================================================================
+// SHARE PROFILE (simulated)
+// =====================================================================
+function fakeCode(seed){
+  let h = hashStr(seed), cells = "";
+  for (let y = 0; y < 9; y++) for (let x = 0; x < 9; x++) {
+    const corner = (x < 3 && y < 3) || (x > 5 && y < 3) || (x < 3 && y > 5);
+    if (corner) continue;
+    h = Math.imul(h ^ (h >>> 13), 1103515245) >>> 0;
+    if (h % 2) cells += `<rect x="${x * 10}" y="${y * 10}" width="9" height="9" rx="2"/>`;
+  }
+  const eye = (x, y) => `<rect x="${x + 1}" y="${y + 1}" width="27" height="27" rx="7" fill="none" stroke="currentColor" stroke-width="3"/><rect x="${x + 9}" y="${y + 9}" width="11" height="11" rx="3"/>`;
+  return `<svg viewBox="0 0 90 90" class="share-code" aria-hidden="true" fill="currentColor">${cells}${eye(0,0)}${eye(60,0)}${eye(0,60)}</svg>`;
+}
+const profileUrl = () => "myonlineprofile.example/@" + profile.username;
+function openShare(){
+  if (viewAs) return;
+  const p = profile;
+  $("#shareCard").innerHTML =
+    `<div class="share-card"><img src="${esc(avatarOf(p))}" alt=""><strong>${esc(p.name)}</strong><span class="muted">@${esc(p.username)}</span>` +
+    `${fakeCode(p.username)}<span class="share-url">${esc(profileUrl())}</span></div>`;
+  const what = p.privacy === "public" ? "they would see everything on your profile."
+    : p.privacy === "friends" ? "they would see your name, photos and bio, but not your posts."
+    : "they would only see your name and photo until you approve them.";
+  $("#shareNote").textContent = `In a real app, anyone with this link could open your profile. Your profile is ${PRIVACY_INFO[p.privacy].label}, so ${what} This link is fictional.`;
+  openSheet("#sheetShare");
+}
+function copyLink(){
+  const url = "https://" + profileUrl();
+  const done = () => toast("Link copied (it's a fictional link)");
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => toast("Copying isn't available here"));
+  else toast("Copying isn't available here");
+}
+
+// =====================================================================
+// RESET
+// =====================================================================
+function confirmReset(){
+  showAlert({
+    icon:"i-refresh", neutral:true,
+    title:"Start Over",
+    message:"Reset your profile and start again?",
+    buttons:[
+      { label:"Cancel", cls:"", isCancel:true },
+      { label:"Reset", cls:"btn-danger", action: doReset }
+    ]
+  });
+}
+function doReset(){
+  profile = makeSampleProfile();
+  posts = clone(SAMPLE_POSTS);
+  draft = null; viewAs = null; contentTab = "posts";
+  feedLikes = {}; activityState = { followBack:false, request:"pending" };
+  createStyle = 0; $("#createCaption").value = "";
+  try { sessionStorage.removeItem(STORE_KEY); } catch (_) {}
+  renderAll(); renderHome(); renderActivity(); renderCreate();
+  showTab("profile");
+  $("#screen-profile").scrollTop = 0;
+  toast("Profile reset");
+}
+
+// =====================================================================
+// PRINTING
+// =====================================================================
+function renderPrint(){
+  const p = profile;
+  const priv = PRIVACY_INFO[p.privacy];
+  const tiles = posts.slice(0, 6).map(t =>
+    `<div class="pr-tile" style="--c1:${esc(t.bg[0])};--c2:${esc(t.bg[1])}">${esc(t.emoji)}</div>`).join("");
+  const q = CONFIG.reflectionQuestions.map(x => `<li><p>${esc(x)}</p><div class="pr-line"></div><div class="pr-line"></div></li>`).join("");
+  $("#printSheet").innerHTML = `
+  <div class="pr">
+    <header class="pr-head"><h1>${esc(CONFIG.appName)}</h1><p>Classroom simulation. Nothing here was posted online.</p></header>
+    <section class="pr-card">
+      <div class="pr-cover"><img src="${esc(p.cover || DEFAULT_COVER)}" alt=""></div>
+      <div class="pr-id">
+        <img class="pr-avatar" src="${esc(avatarOf(p))}" alt="">
+        <div class="pr-names"><h2>${esc(p.name)}${p.pronouns ? `<small>${esc(p.pronouns)}</small>` : ""}</h2><p>@${esc(p.username)}</p></div>
+        <div class="pr-privacy"><strong>Privacy: ${esc(priv.label)}</strong>${esc(priv.desc)}</div>
+      </div>
+      <div class="pr-cols">
+        <div>
+          <h3>Bio</h3><p class="pr-bio">${p.bio ? esc(p.bio) : "<em>No bio</em>"}</p>
+          <h3>Link</h3><p>${p.link ? esc(p.link) : "<em>No link</em>"}</p>
+          <h3>Settings</h3>
+          <ul class="pr-settings">
+            <li>Follower count: ${p.showFollowerCount ? "shown" : "hidden"} (${fmt(p.followers)} followers, ${fmt(p.following)} following)</li>
+            <li>Activity status: ${p.activityStatus ? "on" : "off"}</li>
+            <li>Comments: ${p.allowComments ? "allowed" : "turned off"}</li>
+          </ul>
+        </div>
+        <div><h3>Posts (${fmt(posts.length)})</h3><div class="pr-grid">${tiles}</div></div>
+      </div>
+    </section>
+    <section class="pr-reflect">
+      <h2>My Online Profile Reflection</h2>
+      <ol>${q}</ol>
+      <p class="pr-nameclass">Name/Class:<span>&nbsp;</span></p>
+    </section>
+    <p class="pr-foot">All people, posts and activity in this app are fictional.</p>
+  </div>`;
+}
+function printProfile(){
+  renderPrint();
+  try { window.print(); }
+  catch (e) { toast("Use your browser's Share or Print menu to print."); }
+}
+window.addEventListener("beforeprint", renderPrint);
+
+// =====================================================================
+// TOAST
+// =====================================================================
+let toastTimer = null;
+function toast(msg){
+  const t = $("#toast");
+  $("#toastText").textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2400);
+}
+
+// =====================================================================
+// EVENT WIRING (one delegated click handler)
+// =====================================================================
+const ACTIONS = {
+  "tab": el => { if (!viewAs) showTab(el.dataset.tab); },
+  "edit-profile": openEdit,
+  "share-profile": openShare,
+  "view-as": () => { if (!viewAs) openSheet("#sheetViewAs"); },
+  "set-view": el => setViewAs(el.dataset.view),
+  "return-profile": returnToProfile,
+  "menu": () => openSheet("#sheetMenu"),
+  "menu-go": el => {
+    closeOverlay($("#sheetMenu"), { restoreFocus:false });
+    const fn = ACTIONS[el.dataset.go];
+    $("#btnMenu").focus({ preventScroll:true });
+    setTimeout(() => fn && fn(el), 120);
+  },
+  "print": printProfile,
+  "reset": confirmReset,
+  "photo": el => openPhotoSheet(el.dataset.kind),
+  "choose-photo": choosePhoto,
+  "remove-photo": removePhoto,
+  "close-top": closeTopOverlay,
+  "edit-cancel": cancelEdit,
+  "edit-done": doneEdit,
+  "edit-field": el => openField(el.dataset.field),
+  "edit-visibility": openVisibility,
+  "toggle": el => toggleSetting(el.dataset.key),
+  "field-cancel": cancelField,
+  "field-done": doneField,
+  "vis-done": () => closeSubPage("#visPage"),
+  "chip": el => { fieldInput.value = el.dataset.value; updateFieldCounter(); fieldInput.focus(); },
+  "open-post": el => openPost(el.dataset.post),
+  "post-like": togglePostLike,
+  "post-comment": () => toast(profile.allowComments ? "Comments are simulated. Nothing is posted." : "Comments are turned off for this profile."),
+  "content-tab": el => setContentTab(el.dataset.tabname),
+  "sim-toast": el => toast(el.dataset.msg),
+  "feed-like": el => {
+    const id = el.dataset.id;
+    feedLikes[id] = !feedLikes[id];
+    renderHome();
+    const btn = $(`#homeFeed [data-id="${id}"]`);
+    if (btn) { btn.focus({ preventScroll:true }); popHeart(btn); }
+  },
+  "follow-back": () => {
+    activityState.followBack = !activityState.followBack;
+    renderActivity();
+    const b = $('#activityList [data-action="follow-back"]'); if (b) b.focus({ preventScroll:true });
+    toast("Simulation only. No one was actually followed.");
+  },
+  "req": el => {
+    activityState.request = el.dataset.choice;
+    renderActivity();
+    toast(el.dataset.choice === "confirm" ? "Tip: only accept people you know in real life" : "Request removed");
+  },
+  "pick-style": el => { createStyle = Number(el.dataset.index) || 0; renderCreate(); $(`#stylePicker [data-index="${createStyle}"]`).focus(); },
+  "create-share": shareCreatedPost,
+  "share-preview": () => { closeOverlay($("#sheetShare"), { restoreFocus:false }); setViewAs("public"); },
+  "copy-link": copyLink
+};
+
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-action]");
+  if (!el || el.disabled || el.closest("[inert]")) return;
+  // A switch inside a tappable row handles itself; stop the row from toggling twice
+  if (el.classList.contains("switch")) e.stopPropagation();
+  const fn = ACTIONS[el.dataset.action];
+  if (fn) fn(el, e);
+});
+$("#exploreSearch").addEventListener("input", renderExplore);
+
+// =====================================================================
+// INIT
+// =====================================================================
+function init(){
+  document.title = CONFIG.appName;
+  $("#brandName").textContent = CONFIG.appName;
+  const saved = loadState();
+  profile = (saved && saved.profile) ? Object.assign(makeSampleProfile(), saved.profile) : makeSampleProfile();
+  if (!PRIVACY_INFO[profile.privacy]) profile.privacy = "public";
+  posts = (saved && Array.isArray(saved.posts) && saved.posts.length) ? saved.posts : clone(SAMPLE_POSTS);
+  renderAll();
+  renderHome();
+  renderExplore();
+  renderActivity();
+  renderCreate();
+  showTab("profile");
+}
+init();
+</script>
+</body>
+</html>
